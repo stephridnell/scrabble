@@ -18,20 +18,37 @@ int main(int argc, char* argv[]) {
   unsigned seed;
   /* validate command line argments */
   if (argc < 3 || argc > 4) {
-    normal_print('Invalid args');
+    normal_print("Invalid args\n");
     return EXIT_FAILURE;
   }
   /* display a welcome message */
+  normal_print("Welcome to Scrabble\n");
+  normal_print("-------------------\n");
   /* extract the seed */
+  if (argc == 4) {
     /* if the seed has been provided by the user, extract the
      * number from the string provided - please note that I am not
      * using strtoint as we need a long int */
-  
+    char *seedArg = argv[3];
+    char *ptr;
+
+    seed = strtol(seedArg, &ptr, 10);
+
+    /* check if there is any string - if there is return exit failure */
+    if (*ptr) {
+      return EXIT_FAILURE;
+    }
+
+  } else {
     /* if the seed is not provided, generate the seed for the 
      * current second */
+    seed = time(NULL);
+  }
 
   /* start the random number generator */
+  srand(seed);
   /* output the seed being used */
+  normal_print("Using seed: %u\n", seed);
   /* load the dictionary file */
 
   /* play the game :) */
