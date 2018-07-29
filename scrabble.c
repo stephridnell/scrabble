@@ -60,7 +60,6 @@ int main(int argc, char* argv[]) {
   fileLoaded = load_word_list(wordFile, &wordList);
 
   if (!fileLoaded) {
-    error_print("Error loading dictionary file.\n");
     return EXIT_FAILURE;
   }
 
