@@ -75,11 +75,9 @@ BOOLEAN load_word_list(const char fileName[], struct wordList* wordList) {
     /* remove newline char */
     currentLine[strlen(currentLine) - 1] = 0;
     
-    normal_print("%s\n", currentLine);
+    word_list_add(wordList, currentLine);
     words++;
   }
-
-  normal_print("%d\n", words);
 
   return TRUE;
 }
