@@ -18,7 +18,7 @@
 
 /**
  * initialise the game - just like in assignment 1, you should call all the
- *functions that initialise the data structures for the game from here.
+ * functions that initialise the data structures for the game from here.
  *
  * Start by loading the score file - the implementation of that function will be
  * in io.c but you'll need to call it from here.
@@ -32,13 +32,45 @@
  * that value into the board module to allocate a 2-dimensional board.
  **/
 enum inputResult init_game(struct game* theGame, struct wordList* dictionary, const char tileFile[]) {
-  /* init the game struct */
+  enum inputResult result = IR_FAILURE;
+  char numberOfPlayersInput[LINE_LENGTH + EXTRA_CHARS];
+  char boardSizePrompt[LINE_LENGTH + EXTRA_CHARS];
+
+  /* init the game strucpt */
   memset(theGame, 0, sizeof(struct game));
-  /* load tile file */
+  theGame->allWords = dictionary;
+
+  /* 
+    * Start by loading the score file - the implementation of that function will be
+    * in io.c but you'll need to call it from here.
+  */
   if (!load_scores(tileFile, &theGame->tileMap, &theGame->tiledeck)) {
     error_print("Error loading tile file.\n");
     return IR_FAILURE;
   }
+
+  /* You'll also need to ask for how many players are playing but the allocation
+    * and initialisation of those players should be done in player.c - including
+    * any user input that might involve.
+  */
+  while (result == IR_FAILURE) {
+    /* TODO, numberOfPlayers needs to be an int */
+    result = get_input("How many players will play? ", numberOfPlayersInput);
+  }
+
+  // init players
+
+  /* 
+    * Finally, you should prompt the user for the size of the board (that will be
+    * used for both width and height as the board is a square). You'll then pass
+    * that value into the board module to allocate a 2-dimensional board.
+  */
+ result = IR_FAILURE;
+  while (result == IR_FAILURE) {
+    sprintf(boardSizePrompt, "How wide and high should the board be? The minimum is %d and the maximum is %d: ", BOARD_MIN_SIZE, BOARD_MAX_SIZE);
+    result = get_input(boardSizePrompt, numberOfPlayersInput);
+  }
+
   return IR_FAILURE;
 }
 

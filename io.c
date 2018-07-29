@@ -151,3 +151,24 @@ int error_print(const char* format, ...) {
  **/
 void print_finscores(struct game* theGame) {
 }
+
+enum inputResult get_input(const char prompt[], char line[]) {
+  /* display prompt */
+  normal_print("%s", prompt);
+
+  /* if user presses enter or ctrl-D 'return to menu' */
+  if (fgets(line, LINE_LENGTH + EXTRA_CHARS, stdin) == NULL || *line == '\n') {
+    return IR_RTM;
+  }
+
+  /* check for buffer overflow */
+  if (line[strlen(line) - 1] != '\n') {
+    read_rest_of_line();
+    return IR_FAILURE;
+  }
+
+  /* remove new line */
+  line[strlen(line) - 1] = 0;
+
+  return IR_SUCCESS;
+}

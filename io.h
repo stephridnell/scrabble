@@ -20,6 +20,7 @@
 #define IO_H
 
 #define EXTRA_CHARS 2
+#define LINE_LENGTH 80
 
 /**
  * the possible outcomes of a request for keyboard input
@@ -63,5 +64,7 @@ void print_hand(struct tileList *);
 int error_print(const char[], ...);
 
 void print_finscores(struct game *);
+
+enum inputResult get_input(const char[], char[]);
 
 #endif

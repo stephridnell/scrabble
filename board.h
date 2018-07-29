@@ -15,6 +15,9 @@
 
 #ifndef BOARD_H
 #define BOARD_H
+
+#define BOARD_MIN_SIZE 5
+#define BOARD_MAX_SIZE 15
 /* the contents of each board cell - the letter and the color of the player who
  * played the letter */
 struct cell {
