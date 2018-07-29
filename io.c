@@ -52,6 +52,8 @@ void read_rest_of_line(void) {
  **/
 BOOLEAN load_word_list(const char fileName[], struct wordList* wordList) {
   FILE *file;
+  int words = 0;
+  char currentLine[MAX_WORD_LEN + EXTRA_CHARS];
 
   /* open file */
   if (!(file = fopen(fileName, "r"))) {
@@ -61,7 +63,24 @@ BOOLEAN load_word_list(const char fileName[], struct wordList* wordList) {
   
   normal_print("File open OK\n");
 
-  /* add words to word list */
+  /* read file and add words to word list */
+  while (fgets(currentLine, MAX_WORD_LEN + EXTRA_CHARS, file)) {
+
+    /* check for buffer overflow */
+    if (currentLine[strlen(currentLine) - 1] != '\n') {
+      error_print("Buffer overflow");
+      return FALSE;
+    }
+
+    /* remove newline char */
+    currentLine[strlen(currentLine) - 1] = 0;
+    
+    normal_print("%s\n", currentLine);
+    words++;
+  }
+
+  normal_print("%d\n", words);
+
   return TRUE;
 }
 
