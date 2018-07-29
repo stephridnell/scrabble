@@ -1,7 +1,7 @@
 /******************************************************************************
- * Student Name    :
- * RMIT Student ID :
- * COURSE CODE     :
+ * Student Name    :     Steph Ridnell
+ * RMIT Student ID :     s3272974
+ * COURSE CODE     :     CPT 220
  *
  * Startup code provided by Paul Miller for use in "Programming in C",
  * study period 2, 2018.
@@ -27,11 +27,8 @@
  * starting location and the player's hand. Don't forget that there are
  * different rules when it comes to the first move of the game!
  **/
-BOOLEAN is_valid_move(struct player* curplayer, char word[],
-                      const char location[], struct move* themove,
-                      BOOLEAN isfirst)
-{
-        return FALSE;
+BOOLEAN is_valid_move(struct player* curplayer, char word[], const char location[], struct move* themove, BOOLEAN isfirst) {
+  return FALSE;
 }
 
 /**
@@ -39,9 +36,7 @@ BOOLEAN is_valid_move(struct player* curplayer, char word[],
  * move struct to the game board using the player's color. Don't forget to
  * account for the blank tiles.
  **/
-void apply_move(struct player* player, const struct move* curmove,
-                const char word[])
-{
+void apply_move(struct player* player, const struct move* curmove, const char word[]) {
 }
 
 /**
@@ -49,7 +44,6 @@ void apply_move(struct player* player, const struct move* curmove,
  * player's letter is added to their score. If the letter value is negative,
  * that means that it was placed by a blank and has a score of 0.
  **/
-int calculate_score(struct player* curplayer)
-{
-        return EOF;
+int calculate_score(struct player* curplayer) {
+  return EOF;
 }

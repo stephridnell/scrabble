@@ -1,7 +1,7 @@
 /******************************************************************************
- * Student Name    :
- * RMIT Student ID :
- * COURSE CODE     :
+ * Student Name    :     Steph Ridnell
+ * RMIT Student ID :     s3272974
+ * COURSE CODE     :     CPT 220
  *
  * Startup code provided by Paul Miller for use in "Programming in C",
  * study period 2, 2018.
@@ -31,10 +31,8 @@
  * used for both width and height as the board is a square). You'll then pass
  * that value into the board module to allocate a 2-dimensional board.
  **/
-enum input_result init_game(struct game* thegame, struct word_list* dictionary,
-                            const char tile_file[])
-{
-        return IR_FAILURE;
+enum input_result init_game(struct game* thegame, struct word_list* dictionary, const char tile_file[]) {
+  return IR_FAILURE;
 }
 
 /**
@@ -46,19 +44,17 @@ enum input_result init_game(struct game* thegame, struct word_list* dictionary,
  * of the first turn are different you will also need to keep track of whether
  * it is the first turn or not.
  **/
-void play_game(struct word_list* dictionary, const char tilefile[])
-{
-        struct game thegame;
-        /* initialise the game */
-        /* iterate over the players allowing each to have their turn until
-         * someone quits */
-        /* finalise the scores and print them */
-        /* free memory for the game */
+void play_game(struct word_list* dictionary, const char tilefile[]) {
+  struct game thegame;
+  /* initialise the game */
+  /* iterate over the players allowing each to have their turn until
+   * someone quits */
+  /* finalise the scores and print them */
+  /* free memory for the game */
 }
 
 /**
  * Once the game is finished we need to free all memory allocated for the game
  **/
-void free_game(struct game* thegame)
-{
+void free_game(struct game* thegame) {
 }

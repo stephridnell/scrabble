@@ -1,7 +1,7 @@
 /******************************************************************************
- * Student Name    :
- * RMIT Student ID :
- * COURSE CODE     :
+ * Student Name    :     Steph Ridnell
+ * RMIT Student ID :     s3272974
+ * COURSE CODE     :     CPT 220
  *
  * Startup code provided by Paul Miller for use in "Programming in C",
  * study period 2, 2018.
@@ -23,22 +23,20 @@
 /**
  * a tile is a letter and tile pair.
  **/
-struct tile
-{
-        /* int is used for letter rather than char in order to consistently
-         * use negative numbers
-         */
-        int letter;
-        int score;
+struct tile {
+  /* int is used for letter rather than char in order to consistently
+   * use negative numbers
+   */
+  int letter;
+  int score;
 };
 
 /**
  * score_count stores both the tile and how many times that tile should occur.
  **/
-struct score_count
-{
-        struct tile tile;
-        int count;
+struct score_count {
+  struct tile tile;
+  int count;
 };
 
 /**
@@ -46,11 +44,10 @@ struct score_count
  **/
 extern const struct score_count error_score;
 
-struct tile_list
-{
-        struct tile* tiles;
-        int num_tiles;
-        int total_tiles;
+struct tile_list {
+  struct tile* tiles;
+  int num_tiles;
+  int total_tiles;
 };
 
 #endif

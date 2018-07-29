@@ -1,7 +1,7 @@
 /******************************************************************************
- * Student Name    :
- * RMIT Student ID :
- * COURSE CODE     :
+ * Student Name    :     Steph Ridnell
+ * RMIT Student ID :     s3272974
+ * COURSE CODE     :     CPT 220
  *
  * Startup code provided by Paul Miller for use in "Programming in C",
  * study period 2, 2018.
@@ -22,10 +22,8 @@
  * for each player and then calls init_player() on each player, passing in the
  * required arguments
  **/
-struct player* new_players(int num_players, struct game* thegame,
-                           enum input_result* status)
-{
-        return NULL;
+struct player* new_players(int num_players, struct game* thegame, enum input_result* status) {
+  return NULL;
 }
 
 /**
@@ -34,10 +32,8 @@ struct player* new_players(int num_players, struct game* thegame,
  * deck, as well as setting the color and the game pointer and set the score to
  * 0.
  **/
-enum input_result init_player(struct player* curplayer, int playernum,
-                              enum color color, struct game* thegame)
-{
-        return IR_FAILURE;
+enum input_result init_player(struct player* curplayer, int playernum, enum color color, struct game* thegame) {
+  return IR_FAILURE;
 }
 
 /**
@@ -52,43 +48,37 @@ enum input_result init_player(struct player* curplayer, int playernum,
  * Next, use the functions implemented in the rules module to validate
  * and apply the changes to the board.
  **/
-enum input_result take_turn(struct player* curplayer, BOOLEAN isfirst)
-{
-        /* you'll need to allocate and free this on every turne */
-        char* word;
-        return IR_FAILURE;
+enum input_result take_turn(struct player* curplayer, BOOLEAN isfirst) {
+  /* you'll need to allocate and free this on every turne */
+  char* word;
+  return IR_FAILURE;
 }
 
 /**
  * shuffle the player so they are ordered in a different order to the order
  * they were entered as part of initialisation
  **/
-void shuffle_players(struct player players[], int num_players)
-{
+void shuffle_players(struct player players[], int num_players) {
 }
 
 /**
  * sorts the players in the player list in some order
  **/
-void player_sort(struct player* players, int num_players,
-                 int (*cmp)(const struct player*, const struct player*))
-{
+void player_sort(struct player* players, int num_players, int (*cmp)(const struct player*, const struct player*)) {
 }
 
 /**
  * when finalising the scores, players are sorted by score from top to bottom
  * to print out at the end of a game
  **/
-int player_cmp(const struct player* first, const struct player* second)
-{
-        return EOF;
+int player_cmp(const struct player* first, const struct player* second) {
+  return EOF;
 }
 
 /**
  * in the random shuffle, we randomly "sort" elements according to the result
  * returned from rand()
  **/
-int player_shuffle_cmp(const struct player* first, const struct player* second)
-{
-        return EOF;
+int player_shuffle_cmp(const struct player* first, const struct player* second) {
+  return EOF;
 }

@@ -1,7 +1,7 @@
 /******************************************************************************
- * Student Name    :
- * RMIT Student ID :
- * COURSE CODE     :
+ * Student Name    :     Steph Ridnell
+ * RMIT Student ID :     s3272974
+ * COURSE CODE     :     CPT 220
  *
  * Startup code provided by Paul Miller for use in "Programming in C",
  * study period 2, 2018.
@@ -22,11 +22,10 @@
 /**
  * the possible outcomes of a request for keyboard input
  **/
-enum input_result
-{
-        IR_FAILURE,
-        IR_SUCCESS,
-        IR_RTM
+enum input_result {
+  IR_FAILURE,
+  IR_SUCCESS,
+  IR_RTM
 };
 
 /* the color strings array used to format colours when printing the board */
