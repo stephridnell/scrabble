@@ -50,8 +50,19 @@ void read_rest_of_line(void) {
  * that the whole word has been read and remove the newline at the end of
  * each line.
  **/
-BOOLEAN load_word_list(const char fileName[], struct wordList* wordlist) {
-  return FALSE;
+BOOLEAN load_word_list(const char fileName[], struct wordList* wordList) {
+  FILE *file;
+
+  /* open file */
+  if (!(file = fopen(fileName, "r"))) {
+    error_print("Error opening dictionary file: %s\n", strerror(errno));
+    return FALSE;
+  }
+  
+  normal_print("File open OK\n");
+
+  /* add words to word list */
+  return TRUE;
 }
 
 /**
@@ -96,17 +107,24 @@ int normal_print(const char format[], ...) {
 
 /**
  * prints output to stderr
+ * using error print from assignment 1 startup code by paul miller
  **/
-int error_print(const char format[], ...) {
-  va_list argList;
-  int charCount = 0;
-  /* grab the arguments */
-  va_start(argList, format);
-  /* send them to stderr */
-  charCount += vfprintf(stderr, format, argList);
-  /* all done */
-  va_end(argList);
-  return charCount;
+int error_print(const char* format, ...) {
+  /* the number of chars printed by this function */
+  int charsPrinted;
+  va_list argvec;
+  /* marshall the output for sending to vprintf */
+  va_start(argvec, format);
+  /* change the color to red and print the Error preambe for an error
+   * message */
+  charsPrinted = fprintf(stderr, COLOR_RED);
+  /* print the output required by the user */
+  charsPrinted += vfprintf(stderr, format, argvec);
+  /* reset back to the default colour */
+  charsPrinted += fprintf(stderr, COLOR_RESET);
+  /* stop using the stdarg library */
+  va_end(argvec);
+  return charsPrinted;
 }
 
 /**

@@ -19,6 +19,8 @@
 #ifndef IO_H
 #define IO_H
 
+#define EXTRA_CHARS 2
+
 /**
  * the possible outcomes of a request for keyboard input
  **/
