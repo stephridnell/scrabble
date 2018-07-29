@@ -16,3 +16,16 @@
  * functions for managing this list.
  *****************************************************************************/
 
+BOOLEAN word_list_init(struct wordList* wordList) {
+  return FALSE;
+}
+
+BOOLEAN word_list_add(struct wordList* wordList, const char word[]) {
+  return FALSE;
+}
+
+BOOLEAN word_list_delete(struct wordList* wordList, const char word[]) {
+  return FALSE;
+}
+
+void word_list_free(struct wordList* wordList) {}

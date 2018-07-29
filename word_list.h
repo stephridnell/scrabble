@@ -37,5 +37,13 @@ struct wordList {
   int len;
 };
 
+BOOLEAN word_list_init(struct wordList*);
+
+BOOLEAN word_list_add(struct wordList*, const char[]);
+
+BOOLEAN word_list_delete(struct wordList*, const char[]);
+
+void word_list_free(struct wordList*);
+
 /* publicly callable functions from this module */
 #endif

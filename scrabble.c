@@ -56,6 +56,7 @@ int main(int argc, char* argv[]) {
 
   /* load the dictionary file */
   normal_print("Please wait while we load the dictionary...\n");
+  word_list_init(&wordList);
   wordFile = argv[1];
   fileLoaded = load_word_list(wordFile, &wordList);
 
