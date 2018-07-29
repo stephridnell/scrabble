@@ -16,6 +16,10 @@
 int main(int argc, char* argv[]) {
   struct wordList wordList;
   unsigned seed;
+  char* wordFile;
+  int words;
+  BOOLEAN fileLoaded;
+
   /* validate command line argments */
   if (argc < 3 || argc > 4) {
     normal_print("Invalid args\n");
@@ -49,7 +53,19 @@ int main(int argc, char* argv[]) {
   srand(seed);
   /* output the seed being used */
   normal_print("Using seed: %u\n", seed);
+
   /* load the dictionary file */
+  normal_print("Please wait while we load the dictionary...\n");
+  fileLoaded = load_word_list(wordFile, &wordList);
+
+  if (!fileLoaded) {
+    error_print("Error loading dictionary file.\n");
+    return EXIT_FAILURE;
+  }
+
+  /* output number of words loaded */
+  words = wordList.len;
+  normal_print("%d words have been loaded.\n", words);
 
   /* play the game :) */
   /* free memory */
