@@ -14,7 +14,7 @@
  * kick start the program and clean up at the end.
  *****************************************************************************/
 int main(int argc, char* argv[]) {
-  struct word_list wordlist;
+  struct wordList wordList;
   unsigned seed;
   /* validate command line argments */
   if (argc < 3 || argc > 4) {

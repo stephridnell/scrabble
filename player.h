@@ -30,17 +30,17 @@ struct player {
   /* the color of each token played by this player */
   enum color color;
   /* the hand for the player */
-  struct tile_list hand;
+  struct tileList hand;
   /* a pointer to the game data for this game */
-  struct game* thegame;
+  struct game* theGame;
 };
 
 /* public functions callable from this module */
-enum input_result init_player(struct player*, int, enum color, struct game*);
+enum inputResult init_player(struct player*, int, enum color, struct game*);
 void shuffle_players(struct player*, int);
-struct player* new_players(int, struct game*, enum input_result*);
+struct player* new_players(int, struct game*, enum inputResult*);
 int player_cmp(const struct player*, const struct player*);
 int player_shuffle_cmp(const struct player*, const struct player*);
 void player_sort(struct player*, int, int (*)(const struct player*, const struct player*));
-enum input_result take_turn(struct player*, BOOLEAN);
+enum inputResult take_turn(struct player*, BOOLEAN);
 #endif

@@ -23,17 +23,17 @@
  * linked node that points to the next node and holds the char pointer for
  * the word
  **/
-struct word_node {
+struct wordNode {
   char* word;
-  struct word_node* next;
+  struct wordNode* next;
 };
 
 /**
  * list header structure. holds a pointer to the head node and the length
  * of the list, in case we need that.
  **/
-struct word_list {
-  struct word_node* head;
+struct wordList {
+  struct wordNode* head;
   int len;
 };
 

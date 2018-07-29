@@ -22,19 +22,19 @@
 /**
  * the possible outcomes of a request for keyboard input
  **/
-enum input_result {
+enum inputResult {
   IR_FAILURE,
   IR_SUCCESS,
   IR_RTM
 };
 
 /* the color strings array used to format colours when printing the board */
-extern const char *color_strings[];
+extern const char *colorStrings[];
 
 /* forwards declarations of structs so that we don't have recursive includes */
 struct game;
 struct player;
-struct tile_list;
+struct tileList;
 
 /* strings for each of the colors in our program */
 #define COLOR_RED "\x1b[31m"
@@ -48,15 +48,15 @@ struct tile_list;
 /* public functions implemented for this module */
 void read_rest_of_line(void);
 
-BOOLEAN load_word_list(const char[], struct word_list *);
+BOOLEAN load_word_list(const char[], struct wordList *);
 
-BOOLEAN load_scores(const char[], struct tile_list **, struct tile_list **);
+BOOLEAN load_scores(const char[], struct tileList **, struct tileList **);
 
 void display_board(const struct board *);
 
 int normal_print(const char[], ...);
 
-void print_hand(struct tile_list *);
+void print_hand(struct tileList *);
 
 int error_print(const char[], ...);
 

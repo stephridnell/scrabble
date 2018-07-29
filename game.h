@@ -26,24 +26,24 @@ struct game {
    * allocation of the board struct itself for free. Any pointers inside
    * we still need to point somewhere before we use them. That's the job
    * of malloc */
-  struct board theboard;
+  struct board theBoard;
   /* the dictionary of words that are loaded at startup */
-  struct word_list* allwords;
+  struct wordList* allWords;
   /* this list provides the mapping from tiles (letters) to scores (the
    * the numeric contribution of the tile to the board */
-  struct tile_list* tilemap;
+  struct tileList* tileMap;
   /* the full deck of tiles - dealing of tiles is just deleting from the
    * top of this list and adding it to the hand list in the player struct
    */
-  struct tile_list* tiledeck;
+  struct tileList* tiledeck;
   /* the number of players in the game */
-  int num_players;
+  int numberOfPlayers;
 };
 
 /* public functions callable from outside this module */
-enum input_result init_game(struct game*, struct word_list*, const char[]);
+enum inputResult init_game(struct game*, struct wordList*, const char[]);
 
-void play_game(struct word_list*, const char[]);
+void play_game(struct wordList*, const char[]);
 
 void free_game(struct game*);
 #endif

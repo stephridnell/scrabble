@@ -28,6 +28,6 @@ struct cell {
  */
 struct board {
   struct cell** matrix;
-  int boardsize;
+  int boardSize;
 };
 #endif

@@ -22,7 +22,7 @@
  * for each player and then calls init_player() on each player, passing in the
  * required arguments
  **/
-struct player* new_players(int num_players, struct game* thegame, enum input_result* status) {
+struct player* new_players(int numberOfPlayers, struct game* theGame, enum inputResult* status) {
   return NULL;
 }
 
@@ -32,7 +32,7 @@ struct player* new_players(int num_players, struct game* thegame, enum input_res
  * deck, as well as setting the color and the game pointer and set the score to
  * 0.
  **/
-enum input_result init_player(struct player* curplayer, int playernum, enum color color, struct game* thegame) {
+enum inputResult init_player(struct player* currentPlayer, int playerNumber, enum color color, struct game* theGame) {
   return IR_FAILURE;
 }
 
@@ -48,7 +48,7 @@ enum input_result init_player(struct player* curplayer, int playernum, enum colo
  * Next, use the functions implemented in the rules module to validate
  * and apply the changes to the board.
  **/
-enum input_result take_turn(struct player* curplayer, BOOLEAN isfirst) {
+enum inputResult take_turn(struct player* currentPlayer, BOOLEAN isFirst) {
   /* you'll need to allocate and free this on every turne */
   char* word;
   return IR_FAILURE;
@@ -58,13 +58,13 @@ enum input_result take_turn(struct player* curplayer, BOOLEAN isfirst) {
  * shuffle the player so they are ordered in a different order to the order
  * they were entered as part of initialisation
  **/
-void shuffle_players(struct player players[], int num_players) {
+void shuffle_players(struct player players[], int numberOfPlayers) {
 }
 
 /**
  * sorts the players in the player list in some order
  **/
-void player_sort(struct player* players, int num_players, int (*cmp)(const struct player*, const struct player*)) {
+void player_sort(struct player* players, int numberOfPlayers, int (*cmp)(const struct player*, const struct player*)) {
 }
 
 /**

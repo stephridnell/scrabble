@@ -32,9 +32,9 @@ struct tile {
 };
 
 /**
- * score_count stores both the tile and how many times that tile should occur.
+ * scoreCount stores both the tile and how many times that tile should occur.
  **/
-struct score_count {
+struct scoreCount {
   struct tile tile;
   int count;
 };
@@ -42,12 +42,12 @@ struct score_count {
 /**
  * global const variable that indicates that an error has occured.
  **/
-extern const struct score_count error_score;
+extern const struct scoreCount error_score;
 
-struct tile_list {
+struct tileList {
   struct tile* tiles;
-  int num_tiles;
-  int total_tiles;
+  int numberOfTiles;
+  int totalTiles;
 };
 
 #endif
