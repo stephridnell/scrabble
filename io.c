@@ -75,6 +75,7 @@ BOOLEAN load_word_list(const char fileName[], struct wordList* wordList) {
     /* remove newline char */
     currentLine[strlen(currentLine) - 1] = 0;
     
+    /* TODO convert currentLine to uppercase */
     word_list_add(wordList, currentLine);
     words++;
   }
@@ -87,7 +88,7 @@ BOOLEAN load_word_list(const char fileName[], struct wordList* wordList) {
  * should be created
  **/
 BOOLEAN load_scores(const char fileName[], struct tileList** letterMap, struct tileList** fullList) {
-  return FALSE;
+  return TRUE;
 }
 
 /**

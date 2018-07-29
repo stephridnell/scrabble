@@ -16,7 +16,7 @@
 int main(int argc, char* argv[]) {
   struct wordList wordList;
   unsigned seed;
-  char* wordFile;
+  char *wordFile, *tileFile;
   int words;
   BOOLEAN fileLoaded;
 
@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
     return EXIT_FAILURE;
   }
   /* display a welcome message */
-  normal_print("Welcome to Scrabble\n");
+  normal_print("Welcome to 'Scrabble'\n");
   normal_print("-------------------\n");
   /* extract the seed */
   if (argc == 4) {
@@ -69,7 +69,11 @@ int main(int argc, char* argv[]) {
   normal_print("%d words have been loaded.\n", words);
 
   /* play the game :) */
+  tileFile = argv[2];
+  play_game(&wordList, tileFile);
+
   /* free memory */
+  word_list_free(&wordList);
   return EXIT_SUCCESS;
 }
 

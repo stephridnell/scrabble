@@ -32,6 +32,13 @@
  * that value into the board module to allocate a 2-dimensional board.
  **/
 enum inputResult init_game(struct game* theGame, struct wordList* dictionary, const char tileFile[]) {
+  /* init the game struct */
+  memset(theGame, 0, sizeof(struct game));
+  /* load tile file */
+  if (!load_scores(tileFile, &theGame->tileMap, &theGame->tiledeck)) {
+    error_print("Error loading tile file.\n");
+    return IR_FAILURE;
+  }
   return IR_FAILURE;
 }
 
@@ -47,6 +54,9 @@ enum inputResult init_game(struct game* theGame, struct wordList* dictionary, co
 void play_game(struct wordList* dictionary, const char tileFile[]) {
   struct game theGame;
   /* initialise the game */
+  if (init_game(&theGame, dictionary, tileFile) == IR_FAILURE) {
+    return;
+  }
   /* iterate over the players allowing each to have their turn until
    * someone quits */
   /* finalise the scores and print them */

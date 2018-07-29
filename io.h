@@ -63,4 +63,5 @@ void print_hand(struct tileList *);
 int error_print(const char[], ...);
 
 void print_finscores(struct game *);
+
 #endif
