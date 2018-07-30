@@ -33,9 +33,10 @@
  **/
 enum inputResult init_game(struct game* theGame, struct wordList* dictionary, const char tileFile[]) {
   enum inputResult result = IR_FAILURE;
-  char numberOfPlayersInput[LINE_LENGTH + EXTRA_CHARS];
-  int numberOfPlayers;
-  char boardSizePrompt[LINE_LENGTH + EXTRA_CHARS];
+  char numberOfPlayersInput[LINE_LENGTH + EXTRA_CHARS],
+       boardSizePrompt[LINE_LENGTH + EXTRA_CHARS],
+       boardSizeInput[LINE_LENGTH + EXTRA_CHARS];
+  int numberOfPlayers, boardSize;
 
   /* init the game strucpt */
   memset(theGame, 0, sizeof(struct game));
@@ -56,19 +57,24 @@ enum inputResult init_game(struct game* theGame, struct wordList* dictionary, co
   */
   while (result == IR_FAILURE) {
     result = get_input("How many players will play? ", numberOfPlayersInput);
-
-    /* convert to int */
-    if (!str_to_int(numberOfPlayersInput, &numberOfPlayers)) {
-      error_print("Number of players needs to be a number.\n");
-      result = IR_FAILURE;
-      continue;
+    /* return if the user has entered a new line or crtlD */
+    if (result == IR_RTM) {
+      return IR_RTM;
     }
-
-    /* check that the number is in range */
-    if (numberOfPlayers > 6 || numberOfPlayers < 0) {
-      error_print("Please enter nunmber of players between 1-6.\n");
-      result = IR_FAILURE;
-      continue;
+    /* check value  */
+    if (result == IR_SUCCESS) {
+      /* convert to int */
+      if (!str_to_int(numberOfPlayersInput, &numberOfPlayers)) {
+        error_print("Number of players needs to be a number.\n");
+        result = IR_FAILURE;
+        continue;
+      }
+      /* check that the number is in range */
+      if (numberOfPlayers > 6 || numberOfPlayers < 0) {
+        error_print("Please enter nunmber of players between 1-6.\n");
+        result = IR_FAILURE;
+        continue;
+      }
     }
   }
 
@@ -82,7 +88,26 @@ enum inputResult init_game(struct game* theGame, struct wordList* dictionary, co
  result = IR_FAILURE;
   while (result == IR_FAILURE) {
     sprintf(boardSizePrompt, "How wide and high should the board be? The minimum is %d and the maximum is %d: ", BOARD_MIN_SIZE, BOARD_MAX_SIZE);
-    result = get_input(boardSizePrompt, numberOfPlayersInput);
+    result = get_input(boardSizePrompt, boardSizeInput);
+    /* return if the user has entered a new line or crtlD */
+    if (result == IR_RTM) {
+      return IR_RTM;
+    }
+    /* check value  */
+    if (result == IR_SUCCESS) {
+      /* convert to int */
+      if (!str_to_int(boardSizeInput, &boardSize)) {
+        error_print("Board size needs to be a number.\n");
+        result = IR_FAILURE;
+        continue;
+      }
+      /* check that the number is in range */
+      if (boardSize > 15 || boardSize < 5) {
+        error_print("Please enter nunmber between 5-15.\n");
+        result = IR_FAILURE;
+        continue;
+      }
+    }
   }
 
   return IR_FAILURE;
