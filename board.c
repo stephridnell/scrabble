@@ -14,3 +14,8 @@
  * that manage the game board: allocate the board, set and get the contents of
  * the cells for the board and free the board when exiting the game
  ****************************************************************************/
+
+BOOLEAN init_board(struct board* board) {
+  /* TODO allocate space for board */
+  return TRUE;
+}

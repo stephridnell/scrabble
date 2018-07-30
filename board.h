@@ -33,4 +33,7 @@ struct board {
   struct cell** matrix;
   int boardSize;
 };
+
+BOOLEAN init_board(struct board*);
+
 #endif

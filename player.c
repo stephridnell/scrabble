@@ -23,6 +23,7 @@
  * required arguments
  **/
 struct player* new_players(int numberOfPlayers, struct game* theGame, enum inputResult* status) {
+  /* TODO init each player, assign random colours */
   return NULL;
 }
 

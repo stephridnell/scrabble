@@ -70,7 +70,7 @@ enum inputResult init_game(struct game* theGame, struct wordList* dictionary, co
         continue;
       }
       /* check that the number is in range */
-      if (numberOfPlayers > 6 || numberOfPlayers < 0) {
+      if (numberOfPlayers > 6 || numberOfPlayers < 1) {
         error_print("Please enter nunmber of players between 1-6.\n");
         result = IR_FAILURE;
         continue;
@@ -78,7 +78,12 @@ enum inputResult init_game(struct game* theGame, struct wordList* dictionary, co
     }
   }
 
-  // init players
+  /* init players */
+  result = IR_FAILURE;
+  theGame->players = new_players(numberOfPlayers, theGame, &result);
+
+  /* shuffle players */
+  shuffle_players(theGame->players, numberOfPlayers);
 
   /* 
     * Finally, you should prompt the user for the size of the board (that will be
@@ -103,12 +108,16 @@ enum inputResult init_game(struct game* theGame, struct wordList* dictionary, co
       }
       /* check that the number is in range */
       if (boardSize > 15 || boardSize < 5) {
-        error_print("Please enter nunmber between 5-15.\n");
+        error_print("Please enter number between 5-15.\n");
         result = IR_FAILURE;
         continue;
       }
     }
   }
+
+  /* init board */
+  theGame->theBoard.boardSize = boardSize;
+  init_board(&theGame->theBoard);
 
   return IR_FAILURE;
 }
