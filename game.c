@@ -34,6 +34,7 @@
 enum inputResult init_game(struct game* theGame, struct wordList* dictionary, const char tileFile[]) {
   enum inputResult result = IR_FAILURE;
   char numberOfPlayersInput[LINE_LENGTH + EXTRA_CHARS];
+  int numberOfPlayers;
   char boardSizePrompt[LINE_LENGTH + EXTRA_CHARS];
 
   /* init the game strucpt */
@@ -54,8 +55,21 @@ enum inputResult init_game(struct game* theGame, struct wordList* dictionary, co
     * any user input that might involve.
   */
   while (result == IR_FAILURE) {
-    /* TODO, numberOfPlayers needs to be an int */
     result = get_input("How many players will play? ", numberOfPlayersInput);
+
+    /* convert to int */
+    if (!str_to_int(numberOfPlayersInput, &numberOfPlayers)) {
+      error_print("Number of players needs to be a number.\n");
+      result = IR_FAILURE;
+      continue;
+    }
+
+    /* check that the number is in range */
+    if (numberOfPlayers > 6 || numberOfPlayers < 0) {
+      error_print("Please enter nunmber of players between 1-6.\n");
+      result = IR_FAILURE;
+      continue;
+    }
   }
 
   // init players

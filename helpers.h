@@ -18,4 +18,7 @@
 
 #ifndef HELPERS_H
 #define HELPERS_H
+
+BOOLEAN str_to_int(const char str[], int* ptrResult);
+
 #endif
