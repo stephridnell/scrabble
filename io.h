@@ -22,6 +22,8 @@
 #define EXTRA_CHARS 2
 #define LINE_LENGTH 80
 
+#define TILE_LENGTH 6
+
 /**
  * the possible outcomes of a request for keyboard input
  **/

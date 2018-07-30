@@ -88,6 +88,15 @@ BOOLEAN load_word_list(const char fileName[], struct wordList* wordList) {
  * should be created
  **/
 BOOLEAN load_scores(const char fileName[], struct tileList** letterMap, struct tileList** fullList) {
+  FILE *file;
+  char currentLine[TILE_LENGTH + EXTRA_CHARS];
+
+  /* open file */
+  if (!(file = fopen(fileName, "r"))) {
+    error_print("Error opening tile file: %s\n", strerror(errno));
+    return FALSE;
+  }
+
   return TRUE;
 }
 
