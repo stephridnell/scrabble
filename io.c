@@ -68,6 +68,7 @@ BOOLEAN load_word_list(const char fileName[], struct wordList* wordList) {
 
     /* check for buffer overflow */
     if (currentLine[strlen(currentLine) - 1] != '\n') {
+      read_rest_of_line();
       error_print("Buffer overflow");
       return FALSE;
     }
@@ -88,8 +89,8 @@ BOOLEAN load_word_list(const char fileName[], struct wordList* wordList) {
  * should be created
  **/
 BOOLEAN load_scores(const char fileName[], struct tileList** letterMap, struct tileList** fullList) {
-  FILE *file;
-  /* char currentLine[TILE_LENGTH + EXTRA_CHARS]; */
+  char currentLine[TILE_LENGTH + EXTRA_CHARS];
+  FILE* file;
 
   /* open file */
   if (!(file = fopen(fileName, "r"))) {
@@ -97,6 +98,40 @@ BOOLEAN load_scores(const char fileName[], struct tileList** letterMap, struct t
     return FALSE;
   }
 
+  /* INIT LETTER MAP */
+  if (!init_tile_list(*letterMap, AL_NUM_LETTERS)) {
+    error_print("Error initialising the letter map\n");
+    return FALSE;
+  }
+
+  normal_print("Init letter map OK\n");
+
+  /* INIT LETTER FULL LIST */
+  if (!init_tile_list(*fullList, NUM_LETTERS)) {
+    error_print("Error initialising the letter full list\n");
+    return FALSE;
+  }
+
+  normal_print("Init letter list OK\n");
+
+  /* read file and add tuiles to tiles lists */
+  while (fgets(currentLine, TILE_LENGTH + EXTRA_CHARS, file)) {
+    /* check for buffer overflow */
+    if (currentLine[strlen(currentLine) - 1] != '\n') {
+      read_rest_of_line();
+      error_print("Buffer overflow");
+      return FALSE;
+    }
+
+    /* remove newline char */
+    currentLine[strlen(currentLine) - 1] = 0;
+
+    /* TODO tokenise line to make tile */
+    /* TODO create tiles */
+    /* TODO insert x number of copies of the tile into the deck */
+  }
+
+  /* TODO shuffle */
   return TRUE;
 }
 

@@ -15,7 +15,7 @@
 #include <string.h>
 #ifndef WORDMAP_H
 #define WORDMAP_H
-#define AL_NUM_LETTERS 26
+#define AL_NUM_LETTERS 27
 #define NUM_TILE_DELIMS 2
 #define NUM_TILE_TOKENS 3
 #define NUM_LETTERS 100
@@ -49,5 +49,7 @@ struct tileList {
   int numberOfTiles;
   int totalTiles;
 };
+
+BOOLEAN init_tile_list(struct tileList*, int);
 
 #endif
