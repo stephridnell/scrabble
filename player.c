@@ -40,11 +40,10 @@ struct player* new_players(int numberOfPlayers, struct game* theGame, enum input
   theGame->numberOfPlayers = numberOfPlayers;
 
   /* init individual players */
-  
   for (currentPlayerIndex = 0; currentPlayerIndex < numberOfPlayers; currentPlayerIndex++) {
-    enum color currentPlayersColour = C_INVALID;
+    enum color currentPlayersColour = C_MAGENTA;
 
-    /* TODO assign randcom colours */
+    /* TODO assign randcom colours - every player can have pink for now :) */
 
     *status = init_player(
       &theGame->players[currentPlayerIndex],
@@ -64,7 +63,28 @@ struct player* new_players(int numberOfPlayers, struct game* theGame, enum input
  * 0.
  **/
 enum inputResult init_player(struct player* currentPlayer, int playerNumber, enum color color, struct game* theGame) {
-  normal_print("making new player\n");
+  enum inputResult inputResult = IR_FAILURE;
+  char prompt[LINE_LENGTH + EXTRA_CHARS];
+  char playerNameInput[NAME_LENGTH + EXTRA_CHARS];
+
+  /* get the name of th player from user */
+  while (inputResult == IR_FAILURE) {
+    inputResult = get_input("Please enter the name of the player: ", playerNameInput);
+  }
+
+  /* handle rtm */
+  if (inputResult == IR_RTM) {
+    return IR_RTM;
+  }
+
+  /* TODO filling the starting hand for the using from the tile deck */
+
+  /* add stuff to the struct */
+  currentPlayer->color = color;
+  currentPlayer->theGame = theGame;
+  currentPlayer->score = 0;
+  strcpy(currentPlayer->name, playerNameInput);
+
   return IR_SUCCESS;
 }
 
