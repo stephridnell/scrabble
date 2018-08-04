@@ -19,6 +19,8 @@
 #define NUM_TILE_DELIMS 2
 #define NUM_TILE_TOKENS 3
 #define NUM_LETTERS 100
+#define DELIM ","
+#define NEW_TILE_ERROR -1
 
 /**
  * a tile is a letter and tile pair.

@@ -89,6 +89,7 @@ BOOLEAN load_word_list(const char fileName[], struct wordList* wordList) {
  * should be created
  **/
 BOOLEAN load_scores(const char fileName[], struct tileList** letterMap, struct tileList** fullList) {
+  int runningTileCount = 0;
   char currentLine[TILE_LENGTH + EXTRA_CHARS];
   FILE* file;
 
@@ -133,6 +134,12 @@ BOOLEAN load_scores(const char fileName[], struct tileList** letterMap, struct t
     if (newTileCount < 0) {
       error_print("Error creating new tile. Format probably wrong.\n");
       return FALSE;
+    }
+
+    runningTileCount = runningTileCount + newTileCount;
+
+    if (runningTileCount > NUM_LETTERS) {
+      error_print("Too many tiles yo.\n");
     }
 
     /* TODO insert newTileCount number of copies of the tile into the deck */
