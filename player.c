@@ -24,6 +24,7 @@
  **/
 struct player* new_players(int numberOfPlayers, struct game* theGame, enum inputResult* status) {
   /* init each player, assign random colours */
+  int currentPlayerIndex;
   
   /* allocate size / initialise for players array */
   int size = sizeof(struct player) * numberOfPlayers;
@@ -35,7 +36,25 @@ struct player* new_players(int numberOfPlayers, struct game* theGame, enum input
     return NULL;
   }
 
-  return NULL;
+  /* set games' numberOfPlayers */
+  theGame->numberOfPlayers = numberOfPlayers;
+
+  /* init individual players */
+  
+  for (currentPlayerIndex = 0; currentPlayerIndex < numberOfPlayers; currentPlayerIndex++) {
+    enum color currentPlayersColour = C_INVALID;
+
+    /* TODO assign randcom colours */
+
+    *status = init_player(
+      &theGame->players[currentPlayerIndex],
+      currentPlayerIndex + 1,
+      currentPlayersColour,
+      theGame
+    );
+  }
+
+  return theGame->players;
 }
 
 /**
@@ -45,7 +64,8 @@ struct player* new_players(int numberOfPlayers, struct game* theGame, enum input
  * 0.
  **/
 enum inputResult init_player(struct player* currentPlayer, int playerNumber, enum color color, struct game* theGame) {
-  return IR_FAILURE;
+  normal_print("making new player\n");
+  return IR_SUCCESS;
 }
 
 /**
