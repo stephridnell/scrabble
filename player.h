@@ -17,14 +17,14 @@
 
 /* the maximum number of players for the game */
 #define MAX_PLAYERS 6
-#define HANDSIZE 7
-#define NAMELEN 20
+#define HAND_SIZE 7
+#define NAME_LENGTH 20
 
 struct game;
 
 struct player {
   /* the name of the player */
-  char name[NAMELEN + 1];
+  char name[NAME_LENGTH + 1];
   /* the player's score */
   int score;
   /* the color of each token played by this player */
