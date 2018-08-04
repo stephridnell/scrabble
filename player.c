@@ -51,6 +51,10 @@ struct player* new_players(int numberOfPlayers, struct game* theGame, enum input
       currentPlayersColour,
       theGame
     );
+
+    if (*status == IR_RTM) {
+      return NULL;
+    }
   }
 
   return theGame->players;

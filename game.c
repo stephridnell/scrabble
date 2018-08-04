@@ -82,6 +82,10 @@ enum inputResult init_game(struct game* theGame, struct wordList* dictionary, co
   result = IR_FAILURE;
   theGame->players = new_players(numberOfPlayers, theGame, &result);
 
+  if (result != IR_SUCCESS) {
+    return result;
+  }
+
   /* shuffle players */
   shuffle_players(theGame->players, numberOfPlayers);
 
