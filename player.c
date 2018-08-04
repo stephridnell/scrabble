@@ -23,7 +23,18 @@
  * required arguments
  **/
 struct player* new_players(int numberOfPlayers, struct game* theGame, enum inputResult* status) {
-  /* TODO init each player, assign random colours */
+  /* init each player, assign random colours */
+  
+  /* allocate size / initialise for players array */
+  int size = sizeof(struct player) * numberOfPlayers;
+  theGame->players = (struct player*)malloc(size);
+
+  /* return null if there was an error */
+  if (!theGame->players) {
+    error_print("malloc error\n");
+    return NULL;
+  }
+
   return NULL;
 }
 
