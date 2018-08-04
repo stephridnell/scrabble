@@ -69,7 +69,8 @@ enum inputResult init_player(struct player* currentPlayer, int playerNumber, enu
 
   /* get the name of th player from user */
   while (inputResult == IR_FAILURE) {
-    inputResult = get_input("Please enter the name of the player: ", playerNameInput);
+    sprintf(prompt, "Please enter the name of the player %d: ", playerNumber);
+    inputResult = get_input(prompt, playerNameInput);
   }
 
   /* handle rtm */
@@ -102,7 +103,7 @@ enum inputResult init_player(struct player* currentPlayer, int playerNumber, enu
  **/
 enum inputResult take_turn(struct player* currentPlayer, BOOLEAN isFirst) {
   /* you'll need to allocate and free this on every turne */
-  char* word;
+  /* char* word; */
   return IR_FAILURE;
 }
 

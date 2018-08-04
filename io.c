@@ -89,7 +89,7 @@ BOOLEAN load_word_list(const char fileName[], struct wordList* wordList) {
  **/
 BOOLEAN load_scores(const char fileName[], struct tileList** letterMap, struct tileList** fullList) {
   FILE *file;
-  char currentLine[TILE_LENGTH + EXTRA_CHARS];
+  /* char currentLine[TILE_LENGTH + EXTRA_CHARS]; */
 
   /* open file */
   if (!(file = fopen(fileName, "r"))) {

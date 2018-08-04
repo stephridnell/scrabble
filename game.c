@@ -117,7 +117,10 @@ enum inputResult init_game(struct game* theGame, struct wordList* dictionary, co
 
   /* init board */
   theGame->theBoard.boardSize = boardSize;
-  init_board(&theGame->theBoard);
+  if (!init_board(&theGame->theBoard)) {
+    error_print("Error initialising board.\n");
+    return IR_FAILURE;
+  }
 
   return IR_FAILURE;
 }
