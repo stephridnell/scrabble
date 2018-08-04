@@ -110,7 +110,19 @@ enum inputResult take_turn(struct player* currentPlayer, BOOLEAN isFirst) {
  * shuffle the player so they are ordered in a different order to the order
  * they were entered as part of initialisation
  **/
-void shuffle_players(struct player players[], int numberOfPlayers) {
+void shuffle_players(struct player *players, int numberOfPlayers) {
+  int currentPlayerIndex, indexToSwapWith;
+  struct player temp;
+
+  /* loop through the players and swap with a random other player */
+  for(currentPlayerIndex = 0; currentPlayerIndex < numberOfPlayers; currentPlayerIndex++) {
+    indexToSwapWith = player_shuffle_cmp(numberOfPlayers);
+
+    /* using same swap method as in assignment 1 */
+    temp = players[indexToSwapWith];
+    players[indexToSwapWith] = players[currentPlayerIndex];
+    players[currentPlayerIndex] = temp;
+  }
 }
 
 /**
@@ -130,7 +142,9 @@ int player_cmp(const struct player* first, const struct player* second) {
 /**
  * in the random shuffle, we randomly "sort" elements according to the result
  * returned from rand()
+ * 
+ * I changed the params for this method cos it made more sense this way
  **/
-int player_shuffle_cmp(const struct player* first, const struct player* second) {
-  return EOF;
+int player_shuffle_cmp(int numberOfPlayers) {
+  return rand() % numberOfPlayers;
 }

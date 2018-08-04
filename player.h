@@ -40,7 +40,7 @@ enum inputResult init_player(struct player*, int, enum color, struct game*);
 void shuffle_players(struct player*, int);
 struct player* new_players(int, struct game*, enum inputResult*);
 int player_cmp(const struct player*, const struct player*);
-int player_shuffle_cmp(const struct player*, const struct player*);
+int player_shuffle_cmp(int numberOfPlayers);
 void player_sort(struct player*, int, int (*)(const struct player*, const struct player*));
 enum inputResult take_turn(struct player*, BOOLEAN);
 #endif
