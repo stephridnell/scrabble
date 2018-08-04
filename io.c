@@ -116,6 +116,8 @@ BOOLEAN load_scores(const char fileName[], struct tileList** letterMap, struct t
 
   /* read file and add tuiles to tiles lists */
   while (fgets(currentLine, TILE_LENGTH + EXTRA_CHARS, file)) {
+    struct tile newTile;
+    int newTileCount;
     /* check for buffer overflow */
     if (currentLine[strlen(currentLine) - 1] != '\n') {
       read_rest_of_line();
@@ -126,9 +128,14 @@ BOOLEAN load_scores(const char fileName[], struct tileList** letterMap, struct t
     /* remove newline char */
     currentLine[strlen(currentLine) - 1] = 0;
 
-    /* TODO tokenise line to make tile */
-    /* TODO create tiles */
-    /* TODO insert x number of copies of the tile into the deck */
+    /* create new tile and get the counr of how many times to put it in deck of tiles */
+    newTileCount = new_tile(&newTile, currentLine);
+    if (newTileCount < 0) {
+      error_print("Error creating new tile. Format probably wrong.\n");
+      return FALSE;
+    }
+
+    /* TODO insert newTileCount number of copies of the tile into the deck */
   }
 
   /* TODO shuffle */

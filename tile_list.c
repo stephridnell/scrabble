@@ -43,3 +43,7 @@ BOOLEAN init_tile_list(struct tileList* newTileList, int totalTiles) {
 
   return TRUE;
 }
+
+int new_tile(struct tile *newTile, const char tileString[]) {
+  return EOF;
+}

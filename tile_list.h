@@ -51,5 +51,6 @@ struct tileList {
 };
 
 BOOLEAN init_tile_list(struct tileList*, int);
+int new_tile(struct tile*, const char[]);
 
 #endif
