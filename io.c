@@ -100,7 +100,7 @@ BOOLEAN load_scores(const char fileName[], struct tileList** letterMap, struct t
   }
 
   /* INIT LETTER MAP */
-  if (!init_tile_list(*letterMap, AL_NUM_LETTERS)) {
+  if (!(*letterMap = init_tile_list(AL_NUM_LETTERS))) {
     error_print("Error initialising the letter map\n");
     return FALSE;
   }
@@ -108,7 +108,7 @@ BOOLEAN load_scores(const char fileName[], struct tileList** letterMap, struct t
   normal_print("Init letter map OK\n");
 
   /* INIT LETTER FULL LIST */
-  if (!init_tile_list(*fullList, NUM_LETTERS)) {
+  if (!(*fullList = init_tile_list(NUM_LETTERS))) {
     error_print("Error initialising the letter full list\n");
     return FALSE;
   }
@@ -118,7 +118,7 @@ BOOLEAN load_scores(const char fileName[], struct tileList** letterMap, struct t
   /* read file and add tuiles to tiles lists */
   while (fgets(currentLine, TILE_LENGTH + EXTRA_CHARS, file)) {
     struct tile newTile;
-    int newTileCount;
+    int newTileCount, inserted;
     /* check for buffer overflow */
     if (currentLine[strlen(currentLine) - 1] != '\n') {
       read_rest_of_line();
@@ -140,9 +140,22 @@ BOOLEAN load_scores(const char fileName[], struct tileList** letterMap, struct t
 
     if (runningTileCount > NUM_LETTERS) {
       error_print("Too many tiles yo.\n");
+      return FALSE;
     }
 
-    /* TODO insert newTileCount number of copies of the tile into the deck */
+    /* insert one copy into letter map */
+    if (!add_to_tile_list(newTile, *letterMap)) {
+      error_print("Error adding to tile map.\n");
+      return FALSE;
+    }
+    
+    /* insert newTileCount number of copies of the tile into the deck */
+    for (inserted = 0; inserted < newTileCount; inserted++) {
+      if (!add_to_tile_list(newTile, *fullList)) {
+        error_print("Error adding to tile list.\n");
+        return FALSE;
+      }
+    }
   }
 
   /* TODO shuffle */

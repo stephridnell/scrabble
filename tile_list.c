@@ -16,20 +16,21 @@
  *required to create the functions for this list.
  *****************************************************************************/
 
-BOOLEAN init_tile_list(struct tileList* newTileList, int totalTiles) {
+struct tileList* init_tile_list(int totalTiles) {
+  struct tileList* newTileList;
   /* create var here cause shorter to write 
   *  - need to use a arg for number of tiles because there is a diff number of tiles in tile map and fill tile list and the players hand
   */
   unsigned sizeOfTiles = totalTiles * sizeof(struct tile);
 
-  /* malloc - return FALSE if fails */
+  /* malloc - return NULL if fails */
   if (!(newTileList = malloc(sizeof(struct tileList)))) {
-    return FALSE;
+    return NULL;
   }
 
-  /* malloc tiles - return FALSE if fails */
+  /* malloc tiles - return NULL if fails */
   if (!(newTileList->tiles = malloc(sizeOfTiles))) {
-    return FALSE;
+    return NULL;
   }
 
   /* put initial values in tile list */
@@ -41,7 +42,7 @@ BOOLEAN init_tile_list(struct tileList* newTileList, int totalTiles) {
   /* number of tiles is 0 until we add tiles */
   newTileList->numberOfTiles = 0;
 
-  return TRUE;
+  return newTileList;
 }
 
 int new_tile(struct tile *newTile, const char tileString[]) {
@@ -128,4 +129,8 @@ int new_tile(struct tile *newTile, const char tileString[]) {
 
   /* return the tile count so we kmnow how many times to add it to the deck */
   return tileCount;
+}
+
+BOOLEAN add_to_tile_list(struct tile tileToAdd, struct tileList *list) {
+  return TRUE;
 }

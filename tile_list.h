@@ -52,7 +52,8 @@ struct tileList {
   int totalTiles;
 };
 
-BOOLEAN init_tile_list(struct tileList*, int);
+struct tileList* init_tile_list(int);
 int new_tile(struct tile*, const char[]);
+BOOLEAN add_to_tile_list(struct tile, struct tileList*);
 
 #endif
