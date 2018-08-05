@@ -25,7 +25,6 @@
 struct player* new_players(int numberOfPlayers, struct game* theGame, enum inputResult* status) {
   /* init each player, assign random colours */
   int currentPlayerIndex;
-  
   /* allocate size / initialise for players array */
   int size = sizeof(struct player) * numberOfPlayers;
   theGame->players = (struct player*)malloc(size);
@@ -41,9 +40,27 @@ struct player* new_players(int numberOfPlayers, struct game* theGame, enum input
 
   /* init individual players */
   for (currentPlayerIndex = 0; currentPlayerIndex < numberOfPlayers; currentPlayerIndex++) {
-    enum color currentPlayersColour = C_MAGENTA;
+    enum color currentPlayersColour = C_RESET;
+    BOOLEAN colourAllocated = FALSE, colourTaken = FALSE;
+    int i, color;
 
-    /* TODO assign randcom colours - every player can have pink for now :) */
+    /* assign randcom colours */
+    while (!colourAllocated) {
+      color = (rand() % 6) + 1;
+      colourTaken = FALSE;
+      
+      for (i = 0; i < numberOfPlayers; i++) {
+        /* check to see if a player already has the colour */
+        if (theGame->players[i].color == color) {
+          colourTaken = TRUE;
+        }
+      }
+      /* if colour not taken - assign it */
+      if (!colourTaken) {
+        currentPlayersColour = color;
+        colourAllocated = TRUE;
+      }
+    }
 
     *status = init_player(
       &theGame->players[currentPlayerIndex],

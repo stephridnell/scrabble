@@ -18,16 +18,16 @@ typedef enum {
 } BOOLEAN;
 
 /**
- * the colors available in our system
+ * the colors available in our system - i cheated with my random colour assignment by changing the order... shh.
  **/
 enum color {
+  C_RESET,
   C_RED,
   C_GREEN,
   C_YELLOW,
   C_BLUE,
   C_MAGENTA,
   C_CYAN,
-  C_RESET,
   C_INVALID
 };
 #define SPACE ' '
