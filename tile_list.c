@@ -132,5 +132,14 @@ int new_tile(struct tile *newTile, const char tileString[]) {
 }
 
 BOOLEAN add_to_tile_list(struct tile tileToAdd, struct tileList *list) {
+  /* add tile to the end of the lsit */
+  list->tiles[list->numberOfTiles++] = tileToAdd;
+
+  /* check if we added too many tiles to the list */
+  if (list->numberOfTiles > list->totalTiles) {
+    error_print("Too many tiles yo.\n");
+    return FALSE;
+  }
+
   return TRUE;
 }
