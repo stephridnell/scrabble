@@ -126,7 +126,7 @@ enum inputResult init_game(struct game* theGame, struct wordList* dictionary, co
     return IR_FAILURE;
   }
 
-  return IR_FAILURE;
+  return IR_SUCCESS;
 }
 
 /**
@@ -140,14 +140,35 @@ enum inputResult init_game(struct game* theGame, struct wordList* dictionary, co
  **/
 void play_game(struct wordList* dictionary, const char tileFile[]) {
   struct game theGame;
+  BOOLEAN endGame = FALSE, isFirst = TRUE;
+  enum inputResult result;
+  int currentPlayerIndex = 0;
+
   /* initialise the game */
-  if (init_game(&theGame, dictionary, tileFile) == IR_FAILURE) {
+  result = init_game(&theGame, dictionary, tileFile);
+  if (result == IR_FAILURE || result == IR_RTM) {
+    normal_print("Exiting...\n");
     return;
   }
+
   /* iterate over the players allowing each to have their turn until
    * someone quits */
+  while (!endGame) {
+    if (take_turn(&theGame.players[currentPlayerIndex], isFirst) == IR_RTM) {
+      endGame = TRUE;
+    }
+    currentPlayerIndex++;
+    if (currentPlayerIndex >= theGame.numberOfPlayers) {
+      endGame = TRUE;
+      currentPlayerIndex = 0;
+    }
+  }
+
   /* finalise the scores and print them */
+  print_finscores(&theGame);
+
   /* free memory for the game */
+  free_game(&theGame);
 }
 
 /**

@@ -60,8 +60,6 @@ BOOLEAN load_word_list(const char fileName[], struct wordList* wordList) {
     error_print("Error opening dictionary file: %s\n", strerror(errno));
     return FALSE;
   }
-  
-  normal_print("File open OK\n");
 
   /* read file and add words to word list */
   while (fgets(currentLine, MAX_WORD_LEN + EXTRA_CHARS, file)) {
@@ -105,15 +103,11 @@ BOOLEAN load_scores(const char fileName[], struct tileList** letterMap, struct t
     return FALSE;
   }
 
-  normal_print("Init letter map OK\n");
-
   /* INIT LETTER FULL LIST */
   if (!(*fullList = init_tile_list(NUM_LETTERS))) {
     error_print("Error initialising the letter full list\n");
     return FALSE;
   }
-
-  normal_print("Init letter list OK\n");
 
   /* read file and add tuiles to tiles lists */
   while (fgets(currentLine, TILE_LENGTH + EXTRA_CHARS, file)) {

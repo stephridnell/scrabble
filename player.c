@@ -127,9 +127,10 @@ enum inputResult init_player(struct player* currentPlayer, int playerNumber, enu
  * and apply the changes to the board.
  **/
 enum inputResult take_turn(struct player* currentPlayer, BOOLEAN isFirst) {
+  normal_print("%s\n", currentPlayer->name);
   /* you'll need to allocate and free this on every turne */
   /* char* word; */
-  return IR_FAILURE;
+  return IR_SUCCESS;
 }
 
 /**
