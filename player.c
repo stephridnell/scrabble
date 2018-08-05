@@ -99,7 +99,11 @@ enum inputResult init_player(struct player* currentPlayer, int playerNumber, enu
     return IR_RTM;
   }
 
-  /* TODO filling the starting hand for the using from the tile deck */
+  /* INIT HAND */
+  if (!init_hand(&currentPlayer->hand, theGame->tiledeck)) {
+    error_print("Error initialising player hand.\n");
+    return IR_FAILURE;
+  }
 
   /* add stuff to the struct */
   currentPlayer->color = color;
@@ -169,4 +173,50 @@ int player_cmp(const struct player* first, const struct player* second) {
  **/
 int player_shuffle_cmp(int numberOfPlayers) {
   return rand() % numberOfPlayers;
+}
+
+BOOLEAN init_hand(struct tileList *hand , struct tileList *deck) {
+  int tilesAdded;
+
+  if (!(hand->tiles = malloc(HAND_SIZE))) {
+    return FALSE;
+  }
+
+  memset(hand->tiles, 0, HAND_SIZE);
+  hand->totalTiles = HAND_SIZE;
+  hand->numberOfTiles = 0;
+
+  /* add 7 random tiles to hand from deck */
+  for (tilesAdded = 0; tilesAdded < hand->totalTiles; tilesAdded++) {
+    /* draw tile and add to hand */
+    if (!draw_tile(deck, hand)) {
+      error_print("Error drawing tile.\n");
+      return FALSE;
+    }
+  }
+
+  return TRUE;
+}
+
+BOOLEAN draw_tile(struct tileList* deck, struct tileList* hand) {
+  int i, index = 0;
+  struct tile drawnTile;
+
+  /* remove top tile from the deck */
+  drawnTile = deck->tiles[index];
+
+  /* move all hte tiles forward to fill the now empty spot */
+  for (i = 0; i < deck->numberOfTiles - 1; i++) {
+    deck->tiles[i] = deck->tiles[i + 1];
+  }
+
+  /* reduce the count of tiles remaining in the deck by 1 */
+  deck->numberOfTiles = deck->numberOfTiles - 1;
+
+  /* add drawn tile to hand */
+  if (!add_to_tile_list(drawnTile, hand)) {
+    return FALSE;
+  }
+
+  return TRUE;
 }

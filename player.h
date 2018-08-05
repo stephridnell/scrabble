@@ -43,4 +43,6 @@ int player_cmp(const struct player*, const struct player*);
 int player_shuffle_cmp(int numberOfPlayers);
 void player_sort(struct player*, int, int (*)(const struct player*, const struct player*));
 enum inputResult take_turn(struct player*, BOOLEAN);
+BOOLEAN init_hand(struct tileList*, struct tileList*);
+BOOLEAN draw_tile(struct tileList*, struct tileList*);
 #endif
