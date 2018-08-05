@@ -158,7 +158,8 @@ BOOLEAN load_scores(const char fileName[], struct tileList** letterMap, struct t
     }
   }
 
-  /* TODO shuffle */
+  /* shuffle */
+  shuffle_tiles(*fullList);
   return TRUE;
 }
 

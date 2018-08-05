@@ -55,5 +55,6 @@ struct tileList {
 struct tileList* init_tile_list(int);
 int new_tile(struct tile*, const char[]);
 BOOLEAN add_to_tile_list(struct tile, struct tileList*);
+void shuffle_tiles(struct tileList*);
 
 #endif

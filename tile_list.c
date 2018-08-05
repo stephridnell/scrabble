@@ -143,3 +143,18 @@ BOOLEAN add_to_tile_list(struct tile tileToAdd, struct tileList *list) {
 
   return TRUE;
 }
+
+void shuffle_tiles(struct tileList* listToShuffle) {
+  int currentTileIndex, indexToSwapWith;
+  struct tile temp;
+
+  /* loop through the tiles and swap with a random other tile */
+  for (currentTileIndex = 0; currentTileIndex < listToShuffle->numberOfTiles / 2; currentTileIndex++) {
+    indexToSwapWith = rand() % listToShuffle->numberOfTiles;
+
+    /* using same swap method as in assignment 1 */
+    temp = listToShuffle->tiles[indexToSwapWith];
+    listToShuffle->tiles[indexToSwapWith] = listToShuffle->tiles[currentTileIndex];
+    listToShuffle->tiles[currentTileIndex] = temp;
+  }
+}
