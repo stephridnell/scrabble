@@ -45,5 +45,25 @@ void apply_move(struct player* player, const struct move* currentMove, const cha
  * that means that it was placed by a blank and has a score of 0.
  **/
 int calculate_score(struct player* currentPlayer) {
-  return EOF;
+  struct board* board = &currentPlayer->theGame->theBoard;
+  int score = 0, x, y, tileIndex;
+  struct tileList* tileMap = currentPlayer->theGame->tileMap;
+
+  /* loop through the board */
+  for (y = 0; y < board->boardSize; y++) {
+    for (x = 0; x < board->boardSize; x++) {
+      /* get the current cell using board_get from ass2 partb solution */
+      const struct cell cell = board_get(board, x, y);
+      
+      /* check that the cell letter isn't blank (not negative) 
+      and that the colour matches the players colour */
+      if (cell.letter >= 0 && cell.color == currentPlayer->color) {
+        if (tileIndex = tl_find(tileMap, cell.letter) == EOF) {
+          return EOF;
+        }
+        score += tileMap->tiles[tileIndex].score;
+      }
+    }
+  }
+  return score;
 }
