@@ -43,5 +43,7 @@ BOOLEAN word_list_add(struct wordList*, const char[]);
 
 void word_list_free(struct wordList*);
 
+BOOLEAN lookup_word(struct wordList* wordList, char word[]);
+
 /* publicly callable functions from this module */
 #endif

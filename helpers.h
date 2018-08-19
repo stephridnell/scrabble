@@ -20,5 +20,6 @@
 #define HELPERS_H
 
 BOOLEAN str_to_int(const char str[], int* ptrResult);
+void str_to_upper(char* stringPointer);
 
 #endif

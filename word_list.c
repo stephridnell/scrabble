@@ -8,6 +8,7 @@
  *****************************************************************************/
 
 #include "word_list.h"
+#include "helpers.h"
 #include "io.h"
 /******************************************************************************
  * the word_list module simply keeps track of all the words in our
@@ -103,4 +104,29 @@ void word_list_free(struct wordList* wordList) {
      free(current);
      current = next;
    }
+}
+
+/*
+FROM https://www.geeksforgeeks.org/search-an-element-in-a-linked-list-iterative-and-recursive/
+*/
+BOOLEAN lookup_word(struct wordList* wordList, char word[]) {
+  /* 2) Initialize a node pointer, current = head. */
+  struct wordNode* current = wordList->head;
+  
+  /* 3) Do following while current is not NULL */
+  while (current != NULL) {
+    /* convert word to uppercase */
+    str_to_upper(word);
+
+    /* a) current->key is equal to the key being searched return true. */
+    if (strcmp(current->word, word) == 0) {
+      return TRUE;
+    }
+    
+    /* b) current = current->next */
+    current = current->next;
+  }
+
+  /* 4) Return false  */
+  return FALSE;
 }

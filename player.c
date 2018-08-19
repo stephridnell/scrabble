@@ -129,6 +129,7 @@ enum inputResult init_player(struct player* currentPlayer, int playerNumber, enu
 enum inputResult take_turn(struct player* currentPlayer, BOOLEAN isFirst) {
   char* word;
   enum inputResult result = IR_FAILURE;
+  struct move move;
   char prompt[BUFSIZ + EXTRA_CHARS];
   struct board* board = &currentPlayer->theGame->theBoard;
   char coords[COORDS_LENGTH + EXTRA_CHARS];
@@ -177,6 +178,13 @@ enum inputResult take_turn(struct player* currentPlayer, BOOLEAN isFirst) {
   }
 
   /* validate the turn */
+  if (!is_valid_move(currentPlayer, word, coords, &move, isFirst)) {
+    error_print("Invalid move. Please try again.\n");
+    free(word);
+
+    /* if move is invalid, call take turn recursively so they have to try again */
+    return take_turn(currentPlayer, isFirst);
+  }
 
   /* apply changes to board */
 

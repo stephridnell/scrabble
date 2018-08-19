@@ -28,7 +28,15 @@
  * different rules when it comes to the first move of the game!
  **/
 BOOLEAN is_valid_move(struct player* currentPlayer, char word[], const char location[], struct move* theMove, BOOLEAN isFirst) {
-  return FALSE;
+  /* Firstly, you'll need to check that the word exists in the dictionary */
+  if (!lookup_word(currentPlayer->theGame->allWords, word)) {
+    error_print("Word not found in dictionary.\n");
+    return FALSE;
+  }
+  
+  /* Next tokenize the move string and validate it */
+  /* Finally, test that the word specified can be made on the board given the starting location and the player's hand */
+  return TRUE;
 }
 
 /**

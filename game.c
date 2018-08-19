@@ -198,7 +198,7 @@ void free_game(struct game* theGame) {
 
   /* free the players */
   if (theGame->players) {
-    for (i = 0; i < theGame->numberOfPlayers; ++i) {
+    for (i = 0; i < theGame->numberOfPlayers; i++) {
       tl_free(&theGame->players[i].hand);
     }
     free(theGame->players);

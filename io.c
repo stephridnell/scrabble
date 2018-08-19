@@ -74,7 +74,8 @@ BOOLEAN load_word_list(const char fileName[], struct wordList* wordList) {
     /* remove newline char */
     currentLine[strlen(currentLine) - 1] = 0;
     
-    /* TODO convert currentLine to uppercase */
+    /* convert currentLine to uppercase */
+    str_to_upper(currentLine);
     word_list_add(wordList, currentLine);
     words++;
   }

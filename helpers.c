@@ -30,3 +30,10 @@ BOOLEAN str_to_int(const char str[], int* ptrResult) {
   *ptrResult = ret;
   return TRUE;
 }
+
+void str_to_upper(char *stringPointer) {
+  while (*stringPointer != '\0') {
+    *stringPointer = toupper(*stringPointer);
+    ++stringPointer;
+  }
+}
