@@ -270,18 +270,19 @@ int error_print(const char* format, ...) {
 void print_finscores(struct game* theGame) {
 }
 
-enum inputResult get_input(const char prompt[], char line[]) {
+enum inputResult get_input(const char prompt[], char line[], int size) {
   /* display prompt */
   normal_print("%s", prompt);
 
   /* if user presses enter or ctrl-D 'return to menu' */
-  if (fgets(line, LINE_LENGTH + EXTRA_CHARS, stdin) == NULL || *line == '\n') {
+  if (fgets(line, size + EXTRA_CHARS, stdin) == NULL || *line == '\n') {
     return IR_RTM;
   }
 
   /* check for buffer overflow */
   if (line[strlen(line) - 1] != '\n') {
     read_rest_of_line();
+    error_print("Too many chars. Please try again.\n");
     return IR_FAILURE;
   }
 

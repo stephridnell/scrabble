@@ -71,6 +71,6 @@ void print_line(void);
 
 void print_divider(const char[], int, int);
 
-enum inputResult get_input(const char[], char[]);
+enum inputResult get_input(const char[], char[], int);
 
 #endif

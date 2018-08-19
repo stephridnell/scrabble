@@ -56,7 +56,7 @@ enum inputResult init_game(struct game* theGame, struct wordList* dictionary, co
     * any user input that might involve.
   */
   while (result == IR_FAILURE) {
-    result = get_input("How many players will play? ", numberOfPlayersInput);
+    result = get_input("How many players will play? ", numberOfPlayersInput, LINE_LENGTH);
     /* return if the user has entered a new line or crtlD */
     if (result == IR_RTM) {
       return IR_RTM;
@@ -97,7 +97,7 @@ enum inputResult init_game(struct game* theGame, struct wordList* dictionary, co
  result = IR_FAILURE;
   while (result == IR_FAILURE) {
     sprintf(boardSizePrompt, "How wide and high should the board be? The minimum is %d and the maximum is %d: ", BOARD_MIN_SIZE, BOARD_MAX_SIZE);
-    result = get_input(boardSizePrompt, boardSizeInput);
+    result = get_input(boardSizePrompt, boardSizeInput, LINE_LENGTH);
     /* return if the user has entered a new line or crtlD */
     if (result == IR_RTM) {
       return IR_RTM;
