@@ -127,9 +127,25 @@ enum inputResult init_player(struct player* currentPlayer, int playerNumber, enu
  * and apply the changes to the board.
  **/
 enum inputResult take_turn(struct player* currentPlayer, BOOLEAN isFirst) {
-  normal_print("%s\n", currentPlayer->name);
   /* you'll need to allocate and free this on every turne */
-  /* char* word; */
+  char* word;
+  word = malloc(currentPlayer->theGame->theBoard.boardSize + EXTRA_CHARS);
+  normal_print("%s\n", currentPlayer->name);
+
+  /* display the board */
+  display_board(&currentPlayer->theGame->theBoard);
+
+  /* prompt user for word */
+
+  /* prompt for coordinates */
+
+  /* validate the turn */
+
+  /* apply changes to board */
+
+  /* draw new tiles for the player */
+
+  free(word);
   return IR_SUCCESS;
 }
 

@@ -22,13 +22,13 @@
  * game
  **/
 const char* colorStrings[] = {
+  COLOR_RESET,
   COLOR_RED,
   COLOR_GREEN,
   COLOR_YELLOW,
   COLOR_BLUE,
   COLOR_MAGENTA,
   COLOR_CYAN,
-  COLOR_RESET,
   NULL
 };
 
@@ -165,6 +165,47 @@ BOOLEAN load_scores(const char fileName[], struct tileList** letterMap, struct t
  * in the right color.
  **/
 void display_board(const struct board* theBoard) {
+  int y, x, count, cellSize = 6;
+  int countStart = theBoard->boardSize - cellSize;
+
+  /* print header */
+  
+  normal_print("%3c |", ' ');
+
+  for (count = 1; count <= theBoard->boardSize; ++count) {
+    normal_print("%3d |", count);
+  }
+
+  print_divider(countStart, theBoard->boardSize * cellSize);
+
+  /* print body */
+
+  for (y = 0; y < theBoard->boardSize; y++) {
+    normal_print("%3d |", y + 1);
+
+    for (x = 0; x < theBoard->boardSize; x++) {
+      struct cell* cell = theBoard->matrix[y] + x;
+      int letter = abs(cell->letter);
+
+      normal_print("%s%3c%s |", colorStrings[cell->color], letter, colorStrings[C_RESET]);
+    }
+
+    print_divider(countStart, theBoard->boardSize * cellSize);
+  }
+
+}
+
+void print_divider(int start, int max) {
+  int count;
+  print_line();
+  for (count = start; count < max; count++) {
+    normal_print("-");
+  }
+  print_line();
+}
+
+void print_line(void) {
+  normal_print("\n");
 }
 
 /**

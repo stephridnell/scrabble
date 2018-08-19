@@ -9,41 +9,29 @@
 
 #include "board.h"
 
+/* from paul miller ass2 partb solution */
+const struct cell default_cell = { ' ', C_RESET };
+
 /*****************************************************************************
  * board.c and board.h form the board module. You need to provide functions
  * that manage the game board: allocate the board, set and get the contents of
  * the cells for the board and free the board when exiting the game
  ****************************************************************************/
 
+/* from paul miller ass2 partb solution */
 BOOLEAN init_board(struct board* board) {
-  struct cell initialCell = {
-    ' ',
-    C_RESET
-  };
-  int y, x, boardSize = board->boardSize;
-
-  /* alocate mem for pointers in the board */
-  board->matrix = malloc(boardSize * boardSize * sizeof(struct cell*));
-
-  /* return false if it failed */
-  if (!board->matrix) {
-      return FALSE;
-    }
-
-  for (x = 0; x < boardSize; x++) {
-    /* malloc the row */
-    board->matrix[x] = malloc(boardSize * sizeof(struct cell));
-
-    /* return false if it failed */
-    if (!board->matrix[x]) {
-      return FALSE;
-    }
-
-    /* init each cell to be the initial cell */
-    for (y = 0; y < boardSize; y++) {
-      board->matrix[x][y] = initialCell;
+  int xcount, ycount;
+  
+  /* allocate the row pointers */
+  board->matrix = (struct cell**)malloc(board->boardSize * sizeof(struct cell*));
+  
+  /* allocate each row and then initialise each cell to the default cell */
+  for (ycount = 0; ycount < board->boardSize; ++ycount) {
+    board->matrix[ycount] = (struct cell*)malloc(board->boardSize * sizeof(struct cell));
+    for (xcount = 0; xcount < board->boardSize; ++xcount) {
+      board->matrix[ycount][xcount] = default_cell;
     }
   }
-
+  
   return TRUE;
 }
