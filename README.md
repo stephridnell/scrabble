@@ -2,7 +2,7 @@
 
 ### To compile and run:
 ```
-make
+$ make
 ```
 
 ### To compile and run without Makefile:
