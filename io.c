@@ -268,6 +268,28 @@ int error_print(const char* format, ...) {
  * scoring player to lowest scoring player
  **/
 void print_finscores(struct game* theGame) {
+  int i;
+  struct player* players = theGame->players;
+
+  for (i = 0; i < theGame->numberOfPlayers; i++) {
+    players[i].score = calculate_score(players + i);
+  }
+
+  /* TODO sort players according to score */
+
+  print_line();
+
+  normal_print("Scrabble - Final Scores");
+
+  print_divider("=", 0, NAME_LENGTH + 10);
+
+  normal_print("%-*s | %s", NAME_LENGTH, "Player Name", "Score");
+
+  print_divider("-", 0, NAME_LENGTH + 10);
+
+  for (i = 0; i < theGame->numberOfPlayers; i++) {
+    normal_print("%-*s | %5d\n", NAME_LENGTH, players[i].name, players[i].score);
+  }
 }
 
 enum inputResult get_input(const char prompt[], char line[], int size) {

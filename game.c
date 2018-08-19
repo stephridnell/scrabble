@@ -159,7 +159,6 @@ void play_game(struct wordList* dictionary, const char tileFile[]) {
     }
     currentPlayerIndex++;
     if (currentPlayerIndex >= theGame.numberOfPlayers) {
-      endGame = TRUE;
       currentPlayerIndex = 0;
     }
   }
