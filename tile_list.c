@@ -158,3 +158,20 @@ void shuffle_tiles(struct tileList* listToShuffle) {
     listToShuffle->tiles[currentTileIndex] = temp;
   }
 }
+
+/**
+ * performs a linear search over the tile list and if it is found, return the
+ * index of the location where the element is located and if it is not found,
+ * return -1
+ * 
+ * from paul miller ass2 partb solution
+ **/
+int tl_find(struct tileList* tileList, int needle) {
+  int count;
+  for (count = 0; count < tileList->numberOfTiles; ++count) {
+    if (tileList->tiles[count].letter == needle) {
+      return count;
+    }
+  }
+  return EOF;
+}
