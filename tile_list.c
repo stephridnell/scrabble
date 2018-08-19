@@ -183,3 +183,31 @@ int tl_find(struct tileList* tileList, int needle) {
 void tl_free(struct tileList* tileList) {
   free(tileList->tiles);
 }
+
+/**
+ * removes the tile at the specified index and if retval is not NULL then
+ * store the tile there.
+ * FROM PAUL MILLER ASS2 PARTB SOLUTION
+ **/
+BOOLEAN tl_remove(struct tileList* tileList, struct tile* returnVal, int index) {
+  int count;
+
+  /* check that the specified index is within the range of a valid index */
+  if (index >= tileList->numberOfTiles || index < 0) {
+    return FALSE;
+  }
+  
+  /* if returnVal is not NULL, store the value into that memory */
+  if (returnVal) {
+    *returnVal = tileList->tiles[index];
+  }
+  
+  /* shuffle all the elements forward */
+  for (count = index; count < tileList->numberOfTiles - 1; ++count) {
+    tileList->tiles[count] = tileList->tiles[count + 1];
+  }
+  
+  /* reducce the count of tiles */
+  tileList->numberOfTiles--;
+  return TRUE;
+}

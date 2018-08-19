@@ -149,6 +149,75 @@ BOOLEAN is_valid_move(struct player* currentPlayer, char word[], const char loca
  * account for the blank tiles.
  **/
 void apply_move(struct player* player, const struct move* currentMove, const char word[]) {
+  int i;
+
+  /* find out if there are any blanks in hand */
+  int blanks = 0;
+  for (i = 0; i < player->hand.numberOfTiles; i++) {
+    if (player->hand.tiles[i].letter == SPACE) {
+      blanks++;
+    }
+  }
+
+  /* loop thru word */
+  for (i = 0; i < strlen(word); i++) {
+    int tileLocation = 0;
+    /* create new cell */
+    struct cell newCell;
+    struct cell boardCell;
+    BOOLEAN setSuccess = FALSE;
+    newCell.letter = word[i];
+    newCell.color = player->color;
+
+    /* get current board cell */
+    if (currentMove->dir == DIR_VERTICAL) {
+      boardCell = board_get(&player->theGame->theBoard, currentMove->x, currentMove->y + i);
+    } else {
+      boardCell = board_get(&player->theGame->theBoard, currentMove->x + i, currentMove->y);
+    }
+
+    /* check if cell empty (letter is a space) */
+    if (boardCell.letter == SPACE) {
+      /* if it is a space - remove tile from players hand */
+      /* check if letter is in hand */
+      tileLocation = tl_find(&player->hand, newCell.letter);
+      if (tileLocation < 0) {
+        /* if letter isn't found - check for blanks */
+        if (blanks > 0) {
+          /* convert the letter in te cell to negative so we still know what letter it is but that it is also a blnk */
+          newCell.letter = -newCell.letter;
+          blanks = blanks - 1;
+          /* find the blank in the hand */
+          tileLocation = tl_find(&player->hand, SPACE);
+        } else {
+          error_print("Error: you do not have the letter %c in your hand.\n", newCell.letter);
+          tileLocation = -1;
+        }
+      }
+
+      /* remove tile if found then add to board */
+      if (tileLocation >= 0) {
+        /* start up code has this method return void so 
+        im not sure if i should be handling these failing */
+
+        if (!tl_remove(&player->hand, NULL, tileLocation)) {
+          error_print("Error removing tile from hand.\n");
+          return;
+        }
+
+        if (currentMove->dir == DIR_VERTICAL) {
+          setSuccess = board_set(&player->theGame->theBoard, currentMove->x, currentMove->y + i, newCell);
+        } else {
+          setSuccess = board_set(&player->theGame->theBoard, currentMove->x + i, currentMove->y, newCell);
+        }
+
+        if (!setSuccess) {
+          error_print("Error adding cell to board.\n");
+          return;
+        }
+      }
+    }
+  }
 }
 
 /**

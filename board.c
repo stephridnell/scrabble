@@ -42,3 +42,16 @@ BOOLEAN init_board(struct board* board) {
 struct cell board_get(struct board* theboard, int x, int y) {
   return theboard->matrix[y][x];
 }
+
+/**
+ * sets the cell specified to the new value - from paul miller ass2 partb solution
+ **/
+BOOLEAN board_set(struct board* board, int x, int y, struct cell newCell) {
+  if (x >= board->boardSize || y >= board->boardSize) {
+    return FALSE;
+  }
+  
+  board->matrix[y][x] = newCell;
+  return TRUE;
+}
+

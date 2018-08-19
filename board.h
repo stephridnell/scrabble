@@ -37,4 +37,6 @@ struct board {
 BOOLEAN init_board(struct board*);
 struct cell board_get(struct board* theboard, int x, int y);
 
+BOOLEAN board_set(struct board*, int, int, struct cell);
+
 #endif

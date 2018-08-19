@@ -187,6 +187,7 @@ enum inputResult take_turn(struct player* currentPlayer, BOOLEAN isFirst) {
   }
 
   /* apply changes to board */
+  apply_move(currentPlayer, &move, word);
 
   /* draw new tiles for the player */
 
