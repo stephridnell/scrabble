@@ -69,7 +69,7 @@ void print_finscores(struct game *);
 
 void print_line(void);
 
-void print_divider(int, int);
+void print_divider(const char[], int, int);
 
 enum inputResult get_input(const char[], char[]);
 

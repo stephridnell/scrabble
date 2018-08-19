@@ -176,7 +176,7 @@ void display_board(const struct board* theBoard) {
     normal_print("%3d |", count);
   }
 
-  print_divider(countStart, theBoard->boardSize * cellSize);
+  print_divider("-", countStart, theBoard->boardSize * cellSize);
 
   /* print body */
 
@@ -190,16 +190,16 @@ void display_board(const struct board* theBoard) {
       normal_print("%s%3c%s |", colorStrings[cell->color], letter, colorStrings[C_RESET]);
     }
 
-    print_divider(countStart, theBoard->boardSize * cellSize);
+    print_divider("-", countStart, theBoard->boardSize * cellSize);
   }
 
 }
 
-void print_divider(int start, int max) {
+void print_divider(const char symbol[], int start, int max) {
   int count;
   print_line();
   for (count = start; count < max; count++) {
-    normal_print("-");
+    normal_print(symbol);
   }
   print_line();
 }
@@ -213,6 +213,17 @@ void print_line(void) {
  * assignment specification for the expected format of this output
  **/
 void print_hand(struct tileList* currentHand) {
+  int x;
+
+  print_divider("=", 0, 4 * currentHand->numberOfTiles + 1);
+
+  for (x = 0; x < currentHand->numberOfTiles; x++) {
+    normal_print("|%2c ", currentHand->tiles[x].letter);
+  }
+
+  normal_print("|");
+
+  print_divider("=", 0, 4 * currentHand->numberOfTiles + 1);
 }
 
 /**

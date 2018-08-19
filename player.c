@@ -145,6 +145,7 @@ enum inputResult take_turn(struct player* currentPlayer, BOOLEAN isFirst) {
   );
 
   /* display hand */
+  print_hand(&currentPlayer);
 
   /* prompt user for word */
 
