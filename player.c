@@ -133,6 +133,7 @@ enum inputResult take_turn(struct player* currentPlayer, BOOLEAN isFirst) {
   char prompt[BUFSIZ + EXTRA_CHARS];
   struct board* board = &currentPlayer->theGame->theBoard;
   char coords[COORDS_LENGTH + EXTRA_CHARS];
+  int tilesAdded = 0, tilesToAdd = 0;
 
   /* you'll need to allocate and free this on every turne */
   word = malloc(currentPlayer->theGame->theBoard.boardSize + EXTRA_CHARS);
@@ -190,6 +191,14 @@ enum inputResult take_turn(struct player* currentPlayer, BOOLEAN isFirst) {
   apply_move(currentPlayer, &move, word);
 
   /* draw new tiles for the player */
+  tilesToAdd = currentPlayer->hand.totalTiles - currentPlayer->hand.numberOfTiles;
+  for (tilesAdded = 0; tilesAdded < tilesToAdd; tilesAdded++) {
+    /* draw tile and add to hand */
+    if (!draw_tile(currentPlayer->theGame->tiledeck, &currentPlayer->hand)) {
+      error_print("Error drawing tile.\n");
+      return IR_FAILURE;
+    }
+  }
 
   free(word);
   return IR_SUCCESS;
