@@ -20,6 +20,8 @@
 #define HAND_SIZE 7
 #define NAME_LENGTH 20
 
+#define COORDS_LENGTH 7
+
 struct game;
 
 struct player {

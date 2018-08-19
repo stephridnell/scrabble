@@ -127,19 +127,20 @@ enum inputResult init_player(struct player* currentPlayer, int playerNumber, enu
  * and apply the changes to the board.
  **/
 enum inputResult take_turn(struct player* currentPlayer, BOOLEAN isFirst) {
-  /* you'll need to allocate and free this on every turne */
   char* word;
   enum inputResult result = IR_FAILURE;
   char prompt[BUFSIZ + EXTRA_CHARS];
   struct board* board = &currentPlayer->theGame->theBoard;
+  char coords[COORDS_LENGTH + EXTRA_CHARS];
+
+  /* you'll need to allocate and free this on every turne */
   word = malloc(currentPlayer->theGame->theBoard.boardSize + EXTRA_CHARS);
-  normal_print("%s\n", currentPlayer->name);
 
   /* display the board */
   display_board(board);
 
   /* display player name, score and hand */
-  normal_print("It is %s%s's%s turn, their current score is %d, and their current hand is: \n", 
+  normal_print("It is %s%s's%s turn, their current score is %d, and their current hand is: ", 
     colorStrings[currentPlayer->color],
     currentPlayer->name,
     COLOR_RESET,
@@ -163,6 +164,17 @@ enum inputResult take_turn(struct player* currentPlayer, BOOLEAN isFirst) {
   }
 
   /* prompt for coordinates */
+  result = IR_FAILURE;
+
+  while (result == IR_FAILURE) {
+    result = get_input("Please enter the starting location for the word in the format x:y:d where x and y are the row and column the word starts and d is the direction - either h for horizontal or v for vertical: ", coords, COORDS_LENGTH);
+  }
+
+  if (result == IR_RTM) {
+    normal_print("Exiting...\n");
+    free(word);
+    return IR_RTM;
+  }
 
   /* validate the turn */
 
