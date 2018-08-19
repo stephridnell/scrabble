@@ -21,6 +21,7 @@
 
 #define DECIMAL 10
 
+char* strdup(const char orig[]);
 BOOLEAN str_to_int(const char str[], int* ptrResult);
 void str_to_upper(char* stringPointer);
 int count_char(const char[], char);

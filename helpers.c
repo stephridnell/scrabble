@@ -13,6 +13,21 @@
  * "live" in another module.
  *****************************************************************************/
 
+ /**
+ * duplicates a string to new memory using malloc. This is based on the
+ * function available in c99.
+ * FROM PAUL MILLER ASS 2 PART B SOL
+ **/
+char* strdup(const char orig[]) {
+  /* allocates memory */
+  char* copy = malloc((strlen(orig) + 1) * sizeof(char));
+  if (!copy) {
+    return NULL;
+  }
+  /* do the copy */
+  return strcpy(copy, orig);
+}
+
 /* some code from example at https://www.tutorialspoint.com/c_standard_library/c_function_strtol.htm
    and paul miller shared_files tutes */
 BOOLEAN str_to_int(const char str[], int* ptrResult) {
