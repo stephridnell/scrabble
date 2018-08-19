@@ -289,7 +289,8 @@ int calculate_score(struct player* currentPlayer) {
       /* check that the cell letter isn't blank (not negative) 
       and that the colour matches the players colour */
       if (cell.letter >= 0 && cell.color == currentPlayer->color) {
-        if ((tileIndex = tl_find(tileMap, cell.letter) == EOF)) {
+        tileIndex = tl_find(tileMap, cell.letter);
+        if (tileIndex == EOF) {
           return EOF;
         }
         score += tileMap->tiles[tileIndex].score;
