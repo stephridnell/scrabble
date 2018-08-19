@@ -21,6 +21,7 @@
 #define NUM_LETTERS 100
 #define DELIM ","
 #define NEW_TILE_ERROR -1
+#define ONECHAR 1
 
 /**
  * a tile is a letter and tile pair.
@@ -44,7 +45,7 @@ struct scoreCount {
 /**
  * global const variable that indicates that an error has occured.
  **/
-extern const struct scoreCount error_score;
+extern const struct scoreCount errorScore;
 
 struct tileList {
   struct tile* tiles;
@@ -52,12 +53,17 @@ struct tileList {
   int totalTiles;
 };
 
-struct tileList* init_tile_list(int);
-int new_tile(struct tile*, const char[]);
+
 BOOLEAN add_to_tile_list(struct tile, struct tileList*);
-void shuffle_tiles(struct tileList*);
 int tl_find(struct tileList* tileList, int needle);
 void tl_free(struct tileList* tilelist);
 BOOLEAN tl_remove(struct tileList* tileList, struct tile* returnVal, int index);
+
+struct tileList* tl_make(int numberOfTiles);
+struct scoreCount new_score_count(const char tilestring[]);
+BOOLEAN tl_add(struct tileList* tilelist, const struct tile atile);
+BOOLEAN tl_set(struct tileList* map, const struct tile score);
+struct tileList* tl_init(struct tileList* newMap, int numberOfTiles);
+void tl_shuffle(struct tileList* tilelist);
 
 #endif

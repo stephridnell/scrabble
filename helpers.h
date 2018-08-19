@@ -19,7 +19,13 @@
 #ifndef HELPERS_H
 #define HELPERS_H
 
+#define DECIMAL 10
+
 BOOLEAN str_to_int(const char str[], int* ptrResult);
 void str_to_upper(char* stringPointer);
+int count_char(const char[], char);
+char** tokenize(const char[], const char[], int);
+void free_tokens(char**, int);
+BOOLEAN strtoint(const char input[], int* output);
 
 #endif

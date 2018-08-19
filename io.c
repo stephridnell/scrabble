@@ -43,6 +43,22 @@ void read_rest_of_line(void) {
 }
 
 /**
+ * tests whether the string passed in ends with a newline character
+ * FROM PAUL MILLER ASS 2 PART B SOLUTION
+ **/
+static BOOLEAN has_nl(const char line[]) {
+  return line[strlen(line) - 1] == '\n';
+}
+
+/**
+ * removes the last char from the string - often the newline character
+ * FROM PAUL MILLER ASS 2 PART B SOLUTION
+ **/
+static void remove_nl(char line[]) {
+  line[strlen(line) - 1] = 0;
+}
+
+/**
  * loads the word list (dictionary of allowed words) into a linked list of
  * words. You should open the file then read in each line into a node in
  * the word list. Don't forget to validate each action and remove the
@@ -86,75 +102,86 @@ BOOLEAN load_word_list(const char fileName[], struct wordList* wordList) {
 /**
  * loads the tiles and their values as well as the count of how many
  * should be created
+ * 
+ * UPDATED TO MATCH PAUL MILLER ASS2 PARTB SOLUTION
  **/
-BOOLEAN load_scores(const char fileName[], struct tileList** letterMap, struct tileList** fullList) {
-  int runningTileCount = 0;
-  char currentLine[TILE_LENGTH + EXTRA_CHARS];
-  FILE* file;
-
-  /* open file */
-  if (!(file = fopen(fileName, "r"))) {
-    error_print("Error opening tile file: %s\n", strerror(errno));
+BOOLEAN load_scores(const char fname[], struct tileList** letterMap, struct tileList** fullList) {
+  FILE* reader;
+  char line[TILE_LENGTH + EXTRA_CHARS];
+  int lineno = 0;
+  int tilecount;
+  
+  /* allocate space for the tile map which will be looked up for the scores */
+  *letterMap = tl_make(AL_NUM_LETTERS);
+  if (!*letterMap) {
     return FALSE;
   }
-
-  /* INIT LETTER MAP */
-  if (!(*letterMap = init_tile_list(AL_NUM_LETTERS))) {
-    error_print("Error initialising the letter map\n");
+  
+  /* the full list is all tiles in the game - according to the rules that
+  * is 100 tiles including 2 blank tiles */
+  *fullList = tl_make(NUM_LETTERS);
+  if (!*fullList) {
     return FALSE;
   }
-
-  /* INIT LETTER FULL LIST */
-  if (!(*fullList = init_tile_list(NUM_LETTERS))) {
-    error_print("Error initialising the letter full list\n");
+  
+  /* open the tiles file */
+  reader = fopen(fname, "r");
+  if (!reader) {
+    error_print("Error: %s\n", strerror(errno));
     return FALSE;
   }
-
-  /* read file and add tuiles to tiles lists */
-  while (fgets(currentLine, TILE_LENGTH + EXTRA_CHARS, file)) {
-    struct tile newTile;
-    int newTileCount, inserted;
-    /* check for buffer overflow */
-    if (currentLine[strlen(currentLine) - 1] != '\n') {
-      read_rest_of_line();
-      error_print("Buffer overflow");
-      return FALSE;
+  
+  /* read each line from the file */
+  while (!feof(reader)) {
+    struct scoreCount newScore;
+    ++lineno;
+    
+    /* read in each line and if there is an error and it's not
+    * the end of the file, display an error and exit
+    */
+    if (fgets(line, TILE_LENGTH + EXTRA_CHARS, reader) == NULL) {
+      if (!feof(reader)) {
+        error_print("Error: %s\n", strerror(errno));
+      }
+      break;
     }
-
-    /* remove newline char */
-    currentLine[strlen(currentLine) - 1] = 0;
-
-    /* create new tile and get the counr of how many times to put it in deck of tiles */
-    newTileCount = new_tile(&newTile, currentLine);
-    if (newTileCount < 0) {
-      error_print("Error creating new tile. Format probably wrong.\n");
-      return FALSE;
+    
+    /* check if the line ends in a newline char - if not, there
+    * is buffer overflow
+    */
+    if (!has_nl(line)) {
+      error_print("Error: line %d is too long in %s.\n", lineno, fname);
     }
-
-    runningTileCount = runningTileCount + newTileCount;
-
-    if (runningTileCount > NUM_LETTERS) {
-      error_print("Too many tiles yo.\n");
-      return FALSE;
-    }
-
-    /* insert one copy into letter map */
-    if (!add_to_tile_list(newTile, *letterMap)) {
-      error_print("Error adding to tile map.\n");
+    
+    /* delete the last char which is a newline char */
+    remove_nl(line);
+    
+    /* create a score based on the line */
+    newScore = new_score_count(line);
+    if (newScore.count == errorScore.count) {
+      error_print("Error: there was an invalid tile read in.\n");
       return FALSE;
     }
     
-    /* insert newTileCount number of copies of the tile into the deck */
-    for (inserted = 0; inserted < newTileCount; inserted++) {
-      if (!add_to_tile_list(newTile, *fullList)) {
-        error_print("Error adding to tile list.\n");
+    /* add the tile to the tile map */
+    if (!tl_set(*letterMap, newScore.tile)) {
+      error_print("Error: there are too many tiles to be read in.\n");
+      return FALSE;
+    }
+  
+    /* also add this tile to the tile deck as many times as
+    * specified by the tile count element
+    */
+    for (tilecount = 0; tilecount < newScore.count; ++tilecount) {
+      if (!tl_add(*fullList, newScore.tile)) {
+        error_print("Error: tl_add failed!\n");
         return FALSE;
       }
     }
   }
-
-  /* shuffle */
-  shuffle_tiles(*fullList);
+  
+  /* shuffle the tiles */
+  tl_shuffle(*fullList);
   return TRUE;
 }
 

@@ -16,119 +16,26 @@
  *required to create the functions for this list.
  *****************************************************************************/
 
-struct tileList* init_tile_list(int totalTiles) {
-  struct tileList* newTileList;
-  /* create var here cause shorter to write 
-  *  - need to use a arg for number of tiles because there is a diff number of tiles in tile map and fill tile list and the players hand
-  */
-  unsigned sizeOfTiles = totalTiles * sizeof(struct tile);
+/**
+ * global error score
+ * FROM ASS2PARTB SOL
+ **/
+const struct scoreCount errorScore = { { EOF, EOF }, EOF };
 
-  /* malloc - return NULL if fails */
-  if (!(newTileList = malloc(sizeof(struct tileList)))) {
-    return NULL;
-  }
-
-  /* malloc tiles - return NULL if fails */
-  if (!(newTileList->tiles = malloc(sizeOfTiles))) {
-    return NULL;
-  }
-
-  /* put initial values in tile list */
-  memset(newTileList->tiles, 0, sizeOfTiles);
-
-  /* total number of tiles for the list */
-  newTileList->totalTiles = totalTiles;
-
-  /* number of tiles is 0 until we add tiles */
-  newTileList->numberOfTiles = 0;
-
-  return newTileList;
-}
-
-int new_tile(struct tile *newTile, const char tileString[]) {
-  char *currentToken, *tileStringCopy, *letter, *score, *count;
-  int tokenCount = 1, tileCount = 0, tileScore = 0;
-
-  /* strtok is mutative so we have make a copy of the tileString */
-  if (!(tileStringCopy = strdup(tileString))) {
-    error_print("Error copying tileString\n");
-    /* return new tile error (-1) */
-    return NEW_TILE_ERROR;
-  }
-
-  /* get the tokens */
-  currentToken = strtok(tileStringCopy, DELIM);
-  while (currentToken) {
-    if (tokenCount == 1) {
-      /* store the letter */
-      letter = strdup(currentToken);
-      if (!letter) {
-        error_print("Error getting letter\n");
-        return NEW_TILE_ERROR;
-      }
-    } else if (tokenCount == 2) {
-      /* store the score */
-      score = strdup(currentToken);
-      if (!score) {
-        error_print("Error getting score\n");
-        return NEW_TILE_ERROR;
-      }
-    } else if (tokenCount == 3) {
-      /* store the count */
-      count = strdup(currentToken);
-      if (!count) {
-        error_print("Error getting count\n");
-        return NEW_TILE_ERROR;
-      }
-    } else {
-      /* if it gets here it means there are too many tokens so we error */
-      error_print("Error. Invalid tile format encountered. Too many tokens: %s\n", tileString);
-      return NEW_TILE_ERROR;
+/**
+ * performs a linear search to file the letter specified. Your implementation
+ * could be a lot more efficient than this.
+ * 
+ * FROM ASS2PARTB SOL
+ **/
+static struct tile* find_letter(const struct tileList* theMap, const char letter) {
+  int count;
+  for (count = 0; count < theMap->numberOfTiles; ++count) {
+    if (theMap->tiles[count].letter == letter) {
+      return &theMap->tiles[count];
     }
-
-    /* increment token count */
-    tokenCount++;
-
-    /* proceed to next token */
-    currentToken = strtok(NULL, DELIM);
   }
-
-  if (tokenCount != 4) {
-    error_print("Error. Invalid tile format encountered. Too few tokens: %s\n", tileString);
-    return NEW_TILE_ERROR;
-  }
-
-  /* free mem allocated to the string copy we made - theres probably a bunch of other stuff im supposed to free but honestly im terrible at this whole memory thing */
-  free(tileStringCopy);
-
-  /* validate LETTER */
-  /* length must be 1 */
-  if (strlen(letter) != 1) {
-    error_print("Error. Invalid tile format encountered. Letter is too long: %s\n", tileString);
-  }
-  /* must be uppcase letter or a space */
-  if ((!isalpha(*letter) || !isupper(*letter)) && *letter != ' ') {
-    error_print("Error. Invalid tile format encountered. Letter is wrong: %s\n", tileString);
-  }
-
-  /* make SCORE int */
-  if (!str_to_int(score, &tileScore)) {
-    error_print("Error. Invalid tile format encountered. Score needs to be a number: %s\n", tileString);
-    return NEW_TILE_ERROR;
-  }
-
-  /* make COUNT int */
-  if (!str_to_int(count, &tileCount)) {
-    error_print("Error. Invalid tile format encountered. Count needs to be a number: %s\n", tileString);
-    return NEW_TILE_ERROR;
-  }
-
-  /* create new tile with the values we have in letter and tileScore */
-  newTile->letter = *letter;
-  newTile->score = tileScore;
-
-  /* return the tile count so we kmnow how many times to add it to the deck */
-  return tileCount;
+  return NULL;
 }
 
 BOOLEAN add_to_tile_list(struct tile tileToAdd, struct tileList *list) {
@@ -142,21 +49,6 @@ BOOLEAN add_to_tile_list(struct tile tileToAdd, struct tileList *list) {
   }
 
   return TRUE;
-}
-
-void shuffle_tiles(struct tileList* listToShuffle) {
-  int currentTileIndex, indexToSwapWith;
-  struct tile temp;
-
-  /* loop through the tiles and swap with a random other tile */
-  for (currentTileIndex = 0; currentTileIndex < listToShuffle->numberOfTiles / 2; currentTileIndex++) {
-    indexToSwapWith = rand() % listToShuffle->numberOfTiles;
-
-    /* using same swap method as in assignment 1 */
-    temp = listToShuffle->tiles[indexToSwapWith];
-    listToShuffle->tiles[indexToSwapWith] = listToShuffle->tiles[currentTileIndex];
-    listToShuffle->tiles[currentTileIndex] = temp;
-  }
 }
 
 /**
@@ -210,4 +102,179 @@ BOOLEAN tl_remove(struct tileList* tileList, struct tile* returnVal, int index) 
   /* reducce the count of tiles */
   tileList->numberOfTiles--;
   return TRUE;
+}
+
+/**
+ * in some places, the tile list pointer needs to be malloced and so we
+ * allocate space for the list structure itself here
+ * 
+ * FROM PAUL MILLER ASS 2 PART B SOLUTION
+ **/
+struct tileList* tl_make(int numberOfTiles) {
+  struct tileList* newList;
+  /* allocate space for the list structure */
+  newList = (struct tileList*)malloc(sizeof(struct tileList));
+  if (!newList) {
+    error_print("malloc: %s\n", strerror(errno));
+    return NULL;
+  }
+  /* init work already implemented in tl_init() */
+  if (!tl_init(newList, numberOfTiles)) {
+    return NULL;
+  }
+  return newList;
+}
+
+/**
+ * private (as not in the header) enumeration that represents that parts of
+ * a score for use with the tokenisation and processing of the tilestring
+ * below
+ * FROM PAUL MILLER ASS 2 PART B SOLUTION
+ **/
+enum delimcount {
+  DC_LETTER,
+  DC_NUMBER,
+  DC_COUNT,
+  DC_INVALID
+};
+
+/**
+ * creates a tile and count of how many of that tile should exist in the system
+ * FROM PAUL MILLER ASS 2 PART B SOLUTION
+ **/
+struct scoreCount new_score_count(const char tilestring[]) {
+  const char* delim = ",";
+  enum delimcount curdelim;
+  struct scoreCount thescore = { { EOF, EOF }, EOF };
+  
+  /* tokenize the tilestring */
+  char** parts = tokenize(tilestring, delim, NUM_TILE_TOKENS);
+  char letter;
+  
+  /* iterate over the tokens */
+  for (curdelim = 0; curdelim < DC_INVALID; ++curdelim) {
+    switch (curdelim) {
+      case DC_LETTER:
+        /* store the letter from the string */
+        if (strlen(parts[DC_LETTER]) != ONECHAR) {
+          error_print("token too long: %s\n", parts[DC_LETTER]);
+          free_tokens(parts, NUM_TILE_TOKENS);
+          return errorScore;
+        }
+        
+        letter = *parts[DC_LETTER];
+        /* validate the the tile is an upper case letter or a space (blank) */
+        if ((!isalpha(letter) || !isupper(letter)) && letter != SPACE) {
+          return errorScore;
+        }
+        
+        thescore.tile.letter = letter;
+        break;
+      case DC_NUMBER:
+        /* convert to int the score for this tile */
+        if (!strtoint(parts[DC_NUMBER], &thescore.tile.score)) {
+          free_tokens(parts, NUM_TILE_TOKENS);
+          return errorScore;
+        }
+        break;
+      case DC_COUNT:
+        /* extract the count of how many of this tile should exist in the system */
+        if (!strtoint(parts[DC_COUNT], &thescore.count)) {
+          free_tokens(parts, NUM_TILE_TOKENS);
+          return errorScore;
+        }
+        break;
+      default:
+        /* any other value is an error, so we handle them */
+        error_print("Error: too many delimiters\n");
+        free_tokens(parts, NUM_TILE_TOKENS);
+        return errorScore;
+    }
+  }
+  
+  /* free the tokens as we are done with them */
+  free_tokens(parts, NUM_TILE_TOKENS);
+  return thescore;
+}
+
+/**
+ * adds a tile to the tile list. Please note that this function allows for
+ * duplicate data to be added, such as the same tile being added twice.
+ * FROM PAUL MILLER ASS 2 PART B SOLUTION
+ **/
+BOOLEAN tl_add(struct tileList* tilelist, const struct tile atile) {
+  if (tilelist->numberOfTiles >= tilelist->totalTiles) {
+    return FALSE;
+  }
+  tilelist->tiles[tilelist->numberOfTiles++] = atile;
+  return TRUE;
+}
+
+/**
+ * searches the tile list for the tile that needs to be added and if it
+ * already exists, just change the score to be what was passed in. If it does
+ * not exist, add it at the end.
+ * FROM PAUL MILLER ASS 2 PART B SOLUTION
+ **/
+BOOLEAN tl_set(struct tileList* map, const struct tile score) {
+  /* search for the tile */
+  struct tile* old_val = find_letter(map, score.letter);
+  /* if found, update the score for that tile */
+  if (old_val != NULL) {
+    old_val->score = score.score;
+    return TRUE;
+  }
+  /* test that there is space for this tile */
+  if (map->numberOfTiles == map->totalTiles) {
+    return FALSE;
+  }
+  /* if there is space, add it at the end */
+  map->tiles[map->numberOfTiles++] = score;
+  return TRUE;
+}
+
+/**
+ * initialises the tile list to hold the number of tiles specified.
+ * FROM PAUL MILLER ASS 2 PART B SOLUTION
+ **/
+struct tileList* tl_init(struct tileList* newMap, int numberOfTiles) {
+  assert(numberOfTiles > 0);
+  /* allocate space for the tiles */
+  newMap->tiles = (struct tile*)malloc(sizeof(struct tile) * numberOfTiles);
+  if (!newMap->tiles) {
+    return NULL;
+  }
+  /* initialise the tiles to 0 and the count to 0 */
+  memset(newMap->tiles, 0, sizeof(struct tile) * numberOfTiles);
+  newMap->numberOfTiles = 0;
+  newMap->totalTiles = numberOfTiles;
+  return newMap;
+}
+
+/**
+ * convenience function for swapping tiles for shuffling / sorting
+ * FROM PAUL MILLER ASS 2 PART B SOLUTION
+ **/
+static void swap_tiles(struct tile* first, struct tile* second) {
+  struct tile temp = *first;
+  *first = *first;
+  *first = *second;
+  *second = temp;
+}
+
+/**
+ * randomises the tile list specified. This is designed to be used with
+ * the tile deck
+ * FROM PAUL MILLER ASS 2 PART B SOLUTION
+ **/
+void tl_shuffle(struct tileList* tilelist) {
+  int count;
+  /* iterate through the first half of the tile list and
+   * randomly swap with another tile in the tile list */
+  for (count = 0; count < tilelist->numberOfTiles / 2; ++count) {
+    int newloc = rand() % tilelist->numberOfTiles;
+    if (newloc != count) {
+      swap_tiles(tilelist->tiles + count, tilelist->tiles + newloc);
+    }
+  }
 }
