@@ -1,5 +1,10 @@
 # scrabble
 
+### To compile and run:
+```
+make
+```
+
 ### To compile and run without Makefile:
 
 ```
