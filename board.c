@@ -35,3 +35,10 @@ BOOLEAN init_board(struct board* board) {
   
   return TRUE;
 }
+
+/**
+ * function for retrieving a value from a cell - from paul miller ass2 partb solution
+ **/
+struct cell board_get(struct board* theboard, int x, int y) {
+  return theboard->matrix[y][x];
+}
