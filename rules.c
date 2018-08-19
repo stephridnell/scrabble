@@ -29,7 +29,15 @@
  **/
 BOOLEAN is_valid_move(struct player* currentPlayer, char word[], const char location[], struct move* theMove, BOOLEAN isFirst) {
   char *coordCopy, *currentToken, *xCoord, *yCoord, *direction;
-  int tokenCount = 1, y = 0, x = 0;
+  int tokenCount = 1, y = 0, x = 0, i, letter;
+  BOOLEAN overlap = FALSE, usedOwnLetter = FALSE;
+  /* find out if there are any blanks in hand */
+  int blanks = 0, tileLocation = 0;
+  for (i = 0; i < currentPlayer->hand.numberOfTiles; i++) {
+    if (currentPlayer->hand.tiles[i].letter == SPACE) {
+      blanks++;
+    }
+  }
   
   /* Firstly, you'll need to check that the word exists in the dictionary */
   if (!lookup_word(currentPlayer->theGame->allWords, word)) {
@@ -137,10 +145,55 @@ BOOLEAN is_valid_move(struct player* currentPlayer, char word[], const char loca
     return FALSE;
   }
 
-  /* TODO Finally, test that the word specified can be made 
+  /* Finally, test that the word specified can be made 
   on the board given the starting location and the player's hand */
+  for (i = 0; i < strlen(word); i++) {
+    /* get currenct cell on board */
+    if (theMove->dir == DIR_HORIZONTAL) {
+      letter = board_get(&currentPlayer->theGame->theBoard, theMove->x + i, theMove->y).letter;
+    } else {
+      letter = board_get(&currentPlayer->theGame->theBoard, theMove->x, theMove->y + i).letter;
+    }
 
-  return TRUE;
+    /* abs because letter in cell can be negative */
+    letter = abs(letter);
+
+    /* if the char is the letter then is valid move because word overlaps another word */
+    if (letter == word[i]) {
+      overlap = TRUE;
+    } else if (letter == SPACE) {
+      /* if the char is a space, make sure the player has the letter or a blank */
+      tileLocation = tl_find(&currentPlayer->hand, word[i]);
+      if (tileLocation < 0) {
+        /* if letter isn't found - check for blanks */
+        if (blanks > 0) {
+          /* decement nunmber of blanks */
+          blanks = blanks - 1;
+          usedOwnLetter = TRUE;
+        } else {
+          error_print("Error. Player does not have letter %c.\n", word[i]);
+          return FALSE;
+        }
+      } else {
+        usedOwnLetter = TRUE;
+      }
+    } else {
+      return FALSE;
+    }
+  }
+
+  if (!usedOwnLetter) {
+    /* invalid move if the player didn't use any letters from their hand */
+    error_print("Error. Player must use at least one letter from their own hand.\n");
+    return FALSE;
+  } else if (!overlap && !isFirst) {
+    /* invalid move if it's not the first turn and there's no overlap with another word */
+    error_print("Error. Word must overlap another word already in play.\n");
+    return FALSE;
+  } else {
+    /* else move is valid */
+    return TRUE;
+  }
 }
 
 /**
@@ -191,31 +244,28 @@ void apply_move(struct player* player, const struct move* currentMove, const cha
           tileLocation = tl_find(&player->hand, SPACE);
         } else {
           error_print("Error: you do not have the letter %c in your hand.\n", newCell.letter);
-          tileLocation = -1;
-        }
-      }
-
-      /* remove tile if found then add to board */
-      if (tileLocation >= 0) {
-        /* start up code has this method return void so 
-        im not sure if i should be handling these failing */
-
-        if (!tl_remove(&player->hand, NULL, tileLocation)) {
-          error_print("Error removing tile from hand.\n");
-          return;
-        }
-
-        if (currentMove->dir == DIR_VERTICAL) {
-          setSuccess = board_set(&player->theGame->theBoard, currentMove->x, currentMove->y + i, newCell);
-        } else {
-          setSuccess = board_set(&player->theGame->theBoard, currentMove->x + i, currentMove->y, newCell);
-        }
-
-        if (!setSuccess) {
-          error_print("Error adding cell to board.\n");
           return;
         }
       }
+
+      /* start up code has this method return void so 
+      im not sure if i should be handling these failing */
+      if (!tl_remove(&player->hand, NULL, tileLocation)) {
+        error_print("Error removing tile from hand.\n");
+        return;
+      }
+
+      if (currentMove->dir == DIR_VERTICAL) {
+        setSuccess = board_set(&player->theGame->theBoard, currentMove->x, currentMove->y + i, newCell);
+      } else {
+        setSuccess = board_set(&player->theGame->theBoard, currentMove->x + i, currentMove->y, newCell);
+      }
+
+      if (!setSuccess) {
+        error_print("Error adding cell to board.\n");
+        return;
+      }
+
     }
   }
 }

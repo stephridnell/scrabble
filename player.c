@@ -100,8 +100,12 @@ enum inputResult init_player(struct player* currentPlayer, int playerNumber, enu
   }
 
   /* INIT HAND */
-  if (!init_hand(&currentPlayer->hand, theGame->tiledeck)) {
-    error_print("Error initialising player hand.\n");
+  /* initialise and load the hand for the player 
+  UPDATED FROM PAUL MILLER ASS2 PARTB SOL*/
+  if (!tl_init(&currentPlayer->hand, HAND_SIZE)) {
+    return IR_FAILURE;
+  }
+  if (!tl_fill(theGame->tiledeck, &currentPlayer->hand)) {
     return IR_FAILURE;
   }
 
@@ -133,7 +137,6 @@ enum inputResult take_turn(struct player* currentPlayer, BOOLEAN isFirst) {
   char prompt[BUFSIZ + EXTRA_CHARS];
   struct board* board = &currentPlayer->theGame->theBoard;
   char coords[COORDS_LENGTH + EXTRA_CHARS];
-  int tilesAdded = 0, tilesToAdd = 0;
 
   /* you'll need to allocate and free this on every turne */
   word = malloc(currentPlayer->theGame->theBoard.boardSize + EXTRA_CHARS);
@@ -191,14 +194,7 @@ enum inputResult take_turn(struct player* currentPlayer, BOOLEAN isFirst) {
   apply_move(currentPlayer, &move, word);
 
   /* draw new tiles for the player */
-  tilesToAdd = currentPlayer->hand.totalTiles - currentPlayer->hand.numberOfTiles;
-  for (tilesAdded = 0; tilesAdded < tilesToAdd; tilesAdded++) {
-    /* draw tile and add to hand */
-    if (!draw_tile(currentPlayer->theGame->tiledeck, &currentPlayer->hand)) {
-      error_print("Error drawing tile.\n");
-      return IR_FAILURE;
-    }
-  }
+  tl_fill(currentPlayer->theGame->tiledeck, &currentPlayer->hand);
 
   free(word);
   return IR_SUCCESS;

@@ -65,5 +65,6 @@ BOOLEAN tl_add(struct tileList* tilelist, const struct tile atile);
 BOOLEAN tl_set(struct tileList* map, const struct tile score);
 struct tileList* tl_init(struct tileList* newMap, int numberOfTiles);
 void tl_shuffle(struct tileList* tilelist);
+BOOLEAN tl_fill(struct tileList* fullList, struct tileList* hand);
 
 #endif

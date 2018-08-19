@@ -158,6 +158,7 @@ void play_game(struct wordList* dictionary, const char tileFile[]) {
     if (take_turn(&theGame.players[currentPlayerIndex], isFirst) == IR_RTM) {
       endGame = TRUE;
     }
+    isFirst = FALSE;
     currentPlayerIndex++;
     if (currentPlayerIndex >= theGame.numberOfPlayers) {
       currentPlayerIndex = 0;

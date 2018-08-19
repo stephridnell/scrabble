@@ -278,3 +278,25 @@ void tl_shuffle(struct tileList* tilelist) {
     }
   }
 }
+
+/**
+ * takes the top tile from the fulllist and adds it to the hand until the hand
+ * is full.
+ * FROM PAUL MILLER ASS2 PARTB SOL
+ **/
+BOOLEAN tl_fill(struct tileList* fullList, struct tileList* hand) {
+  /* how far is the hand from being full ? */
+  int numberNeeded = hand->totalTiles - hand->numberOfTiles;
+  int numberDealt;
+  /* delete each needed tile from the full list and add to the hand */
+  for (numberDealt = 0; numberDealt < numberNeeded; ++numberDealt) {
+    struct tile copy;
+    if (fullList->numberOfTiles == 0) {
+      return FALSE;
+    }
+    if (tl_remove(fullList, &copy, 0)) {
+      tl_add(hand, copy);
+    }
+  }
+  return TRUE;
+}
