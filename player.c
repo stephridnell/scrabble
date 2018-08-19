@@ -91,7 +91,7 @@ enum inputResult init_player(struct player* currentPlayer, int playerNumber, enu
   /* get the name of th player from user */
   while (inputResult == IR_FAILURE) {
     sprintf(prompt, "Please enter the name of the player %d: ", playerNumber);
-    inputResult = get_input(prompt, playerNameInput);
+    inputResult = get_input(prompt, playerNameInput, LINE_LENGTH);
   }
 
   /* handle rtm */
@@ -129,6 +129,8 @@ enum inputResult init_player(struct player* currentPlayer, int playerNumber, enu
 enum inputResult take_turn(struct player* currentPlayer, BOOLEAN isFirst) {
   /* you'll need to allocate and free this on every turne */
   char* word;
+  enum inputResult result = IR_FAILURE;
+  char prompt[BUFSIZ + EXTRA_CHARS];
   struct board* board = &currentPlayer->theGame->theBoard;
   word = malloc(currentPlayer->theGame->theBoard.boardSize + EXTRA_CHARS);
   normal_print("%s\n", currentPlayer->name);
@@ -145,9 +147,20 @@ enum inputResult take_turn(struct player* currentPlayer, BOOLEAN isFirst) {
   );
 
   /* display hand */
-  print_hand(&currentPlayer);
+  print_hand(&currentPlayer->hand);
 
   /* prompt user for word */
+  sprintf(prompt, "Please enter a word to play, at most %d characters: ", board->boardSize);
+
+  while (result == IR_FAILURE) {
+    result = get_input(prompt, word, board->boardSize);
+  }
+
+  if (result == IR_RTM) {
+    normal_print("Exiting...\n");
+    free(word);
+    return IR_RTM;
+  }
 
   /* prompt for coordinates */
 
