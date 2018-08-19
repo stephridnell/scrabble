@@ -57,5 +57,6 @@ int new_tile(struct tile*, const char[]);
 BOOLEAN add_to_tile_list(struct tile, struct tileList*);
 void shuffle_tiles(struct tileList*);
 int tl_find(struct tileList* tileList, int needle);
+void tl_free(struct tileList* tilelist);
 
 #endif

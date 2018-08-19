@@ -148,6 +148,7 @@ void play_game(struct wordList* dictionary, const char tileFile[]) {
   result = init_game(&theGame, dictionary, tileFile);
   if (result == IR_FAILURE || result == IR_RTM) {
     normal_print("Exiting...\n");
+    free_game(&theGame);
     return;
   }
 
@@ -174,4 +175,33 @@ void play_game(struct wordList* dictionary, const char tileFile[]) {
  * Once the game is finished we need to free all memory allocated for the game
  **/
 void free_game(struct game* theGame) {
+  int i;
+
+  /* free the board */
+  for (i = 0; i < theGame->theBoard.boardSize; i++) {
+    free(theGame->theBoard.matrix[i]);
+  }
+  free(theGame->theBoard.matrix);
+
+  /* need if statements to avoid seg fault */
+
+  /* free the tiles (map and deck) */
+  if (theGame->tileMap) {
+    tl_free(theGame->tileMap);
+    free(theGame->tileMap);
+  }
+
+  if (theGame->tiledeck) {
+    tl_free(theGame->tiledeck);
+    free(theGame->tiledeck);
+  }
+
+  /* free the players */
+  if (theGame->players) {
+    for (i = 0; i < theGame->numberOfPlayers; ++i) {
+      tl_free(&theGame->players[i].hand);
+    }
+    free(theGame->players);
+  }
+  
 }

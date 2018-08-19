@@ -175,3 +175,11 @@ int tl_find(struct tileList* tileList, int needle) {
   }
   return EOF;
 }
+
+/**
+ * frees the tiles array for this tile list
+ * FROM PAUL MILLER ASS2 PARTB SOLUTION
+ **/
+void tl_free(struct tileList* tileList) {
+  free(tileList->tiles);
+}
