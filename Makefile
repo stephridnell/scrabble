@@ -18,5 +18,19 @@ SOURCES=board.c game.c helpers.c io.c tile_list.c player.c rules.c scrabble.c \
 	word_list.c
 HEADERS=board.h game.h helpers.h io.h tile_list.h player.h rules.h scrabble.h \
 	shared.h word_list.h
+OBJECTS=board.o game.o helpers.o io.o tile_list.o player.o rules.o scrabble.o \
+	word_list.o
+CC=gcc
+CFLAGS=-Wall -pedantic -ansi
+EXE=scrabble
+
+all:${EXE}
+
+scrabble:${OBJECTS}
+	${CC} ${OBJECTS} -o $@
+
 archive:
 	zip ${USER} ${SOURCES} ${HEADERS} Makefile
+
+clean:
+	rm -f ${OBJECTS} ${EXE}

@@ -175,6 +175,7 @@ void play_game(struct wordList* dictionary, const char tileFile[]) {
  * Once the game is finished we need to free all memory allocated for the game
  **/
 void free_game(struct game* theGame) {
+  /* TODO debug this method cos it doesnt always work good */
   int i;
 
   /* free the board */
