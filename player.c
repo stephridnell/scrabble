@@ -129,11 +129,22 @@ enum inputResult init_player(struct player* currentPlayer, int playerNumber, enu
 enum inputResult take_turn(struct player* currentPlayer, BOOLEAN isFirst) {
   /* you'll need to allocate and free this on every turne */
   char* word;
+  struct board* board = &currentPlayer->theGame->theBoard;
   word = malloc(currentPlayer->theGame->theBoard.boardSize + EXTRA_CHARS);
   normal_print("%s\n", currentPlayer->name);
 
   /* display the board */
-  display_board(&currentPlayer->theGame->theBoard);
+  display_board(board);
+
+  /* display player name, score and hand */
+  normal_print("It is %s%s's%s turn, their current score is %d, and their current hand is: \n", 
+    colorStrings[currentPlayer->color],
+    currentPlayer->name,
+    COLOR_RESET,
+    currentPlayer->score = calculate_score(currentPlayer)
+  );
+
+  /* display hand */
 
   /* prompt user for word */
 
