@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
 
   /* validate command line argments */
   if (argc < 3 || argc > 4) {
-    normal_print("Invalid args\n");
+    display_usage();
     return EXIT_FAILURE;
   }
   /* display a welcome message */
@@ -40,6 +40,8 @@ int main(int argc, char* argv[]) {
 
     /* check if there is any string - if there is return exit failure */
     if (*ptr) {
+      error_print("Error: Invalid seed provided.\n");
+      display_usage();
       return EXIT_FAILURE;
     }
 
@@ -77,3 +79,16 @@ int main(int argc, char* argv[]) {
   return EXIT_SUCCESS;
 }
 
+/**
+ * display instructions to the user of the program in how to use it.
+ * FROM PAUL MILLER ASS2 PARTB SOL
+ **/
+void display_usage(void) {
+  error_print("Error: invalid command-line arguments provided.\n");
+  error_print("You need to call this program as: \n");
+  error_print("\n\t./scrabble <dictionary> <scorefile> [<seed>]\n\n");
+  error_print("the dictionary file and the scorefile may have any name. \n");
+  error_print("We only validate for the position of the argument and its contents.\n");
+  error_print("We do not validate the file name or its location.\n");
+  error_print("The seed is optional but if used should be the seed from a previous run of the program.\n");
+}
